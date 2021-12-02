@@ -2,9 +2,9 @@ name: Dart
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   build:
@@ -17,5 +17,11 @@ jobs:
       - name: Install dependencies
         run: dart pub get
 
-      - name: Day 01
-        run: dart bin/day01.dart
+      - name: Verify formatting
+        run: dart format --output=none --set-exit-if-changed .
+
+      - name: Analyze project source
+        run: dart analyze --fatal-warnings
+
+      - name: Run tests
+        run: dart test
