@@ -8,7 +8,8 @@ Future<int> calcPowerConsumption(Stream<String> report) async {
   final List<int> bitTally = List.filled(reportBitLength, 0);
   int reportEntries = 0;
 
-  // Tally the number of bits in
+  // Tally the number of bits in each report. bitTally should have the same
+  // length as each initial report item, and be a sum of the entries.
   while (await queue.hasNext) {
     final entry = await queue.next;
     for (int idx = 0; idx < entry.length; idx++) {
