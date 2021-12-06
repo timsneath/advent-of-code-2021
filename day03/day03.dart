@@ -1,17 +1,13 @@
 import 'dart:io';
 
-int sum(int a, int b) => a + b;
-Iterable<int> sumIterable(Iterable<int> a, Iterable<int> b) =>
-    [for (int i = 0; i < a.length; i++) sum(a.elementAt(i), b.elementAt(i))];
-
 int calcPowerConsumption(List<String> data) {
   // Convert '01101' to [0, 1, 1, 0, 1]
   final report =
       data.map((event) => event.split('').map((e) => e == '1' ? 1 : 0));
 
   // Sum all the rows
-  final bitTally =
-      report.reduce((previous, element) => sumIterable(previous, element));
+  final bitTally = report.reduce((a, b) =>
+      [for (int i = 0; i < a.length; i++) a.elementAt(i) + b.elementAt(i)]);
   final reportEntries = report.length;
 
   final bGammaRate = bitTally.map((e) => e * 2 >= reportEntries ? '1' : '0');
