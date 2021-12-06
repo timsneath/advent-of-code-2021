@@ -1,22 +1,18 @@
-import 'package:async/async.dart';
-import 'dart:convert';
 import 'dart:io';
 
-Future<int> calcPowerConsumption(Stream<String> report) async {
-  final queue = StreamQueue<String>(report);
-  final reportBitLength = (await queue.peek).length;
-  final List<int> bitTally = List.filled(reportBitLength, 0);
-  int reportEntries = 0;
+int sum(int a, int b) => a + b;
+Iterable<int> sumIterable(Iterable<int> a, Iterable<int> b) =>
+    [for (int i = 0; i < a.length; i++) sum(a.elementAt(i), b.elementAt(i))];
 
-  // Tally the number of bits in each report. bitTally should have the same
-  // length as each initial report item, and be a sum of the entries.
-  while (await queue.hasNext) {
-    final entry = await queue.next;
-    for (int idx = 0; idx < entry.length; idx++) {
-      if (entry[idx] == '1') bitTally[idx]++;
-    }
-    reportEntries++;
-  }
+int calcPowerConsumption(List<String> data) {
+  // Convert '01101' to [0, 1, 1, 0, 1]
+  final report =
+      data.map((event) => event.split('').map((e) => e == '1' ? 1 : 0));
+
+  // Sum all the rows
+  final bitTally =
+      report.reduce((previous, element) => sumIterable(previous, element));
+  final reportEntries = report.length;
 
   final bGammaRate = bitTally.map((e) => e * 2 >= reportEntries ? '1' : '0');
   final bEpsilonRate = bitTally.map((e) => e * 2 >= reportEntries ? '0' : '1');
@@ -26,11 +22,10 @@ Future<int> calcPowerConsumption(Stream<String> report) async {
   return gammaRate * epsilonRate;
 }
 
-void main(List<String> args) async {
+void main(List<String> args) {
   final path = args.isNotEmpty ? args[0] : 'day03/day03.txt';
-  final course =
-      File(path).openRead().transform(utf8.decoder).transform(LineSplitter());
+  final course = File(path).readAsLinesSync();
 
-  final power = await calcPowerConsumption(course);
+  final power = calcPowerConsumption(course);
   print('Power consumption: $power');
 }
