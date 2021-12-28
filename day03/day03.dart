@@ -38,8 +38,6 @@ int calcOxygenGeneratorRating(Iterable<Iterable<int>> report) {
 int calcCO2ScrubberRating(Iterable<Iterable<int>> report) {
   final rows = report.toList();
 
-  var bit = 0;
-
   for (var bit = 0; rows.length > 1; bit++) {
     // Find the least common value in a given column by summing the column and
     // seeing if the total is more than half. If so, the least common value is
