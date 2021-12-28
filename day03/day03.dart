@@ -1,10 +1,9 @@
 import 'dart:io';
 
-int calcPowerConsumption(List<String> data) {
-  // Convert '01101' to [0, 1, 1, 0, 1]
-  final report =
-      data.map((event) => event.split('').map((e) => e == '1' ? 1 : 0));
+Iterable<Iterable<int>> convertRawData(List<String> rawData) =>
+    rawData.map((event) => event.split('').map((e) => e == '1' ? 1 : 0));
 
+int calcPowerConsumption(Iterable<Iterable<int>> report) {
   // Sum all the rows
   final bitTally = report.reduce((a, b) =>
       [for (int i = 0; i < a.length; i++) a.elementAt(i) + b.elementAt(i)]);
@@ -18,10 +17,57 @@ int calcPowerConsumption(List<String> data) {
   return gammaRate * epsilonRate;
 }
 
+int calcOxygenGeneratorRating(Iterable<Iterable<int>> report) {
+  final rows = report.toList();
+
+  for (var bit = 0; rows.length > 1; bit++) {
+    // Find the most common value in a given column by summing the column and
+    // seeing if the total is half or more. If so, the most common value is 1,
+    // if not, it's 0.
+    final columnSum = rows
+        .map((e) => e.elementAt(bit))
+        .reduce((value, element) => value + element);
+    final mostCommonValue = columnSum * 2 >= rows.length ? 1 : 0;
+
+    rows.removeWhere((element) => element.elementAt(bit) != mostCommonValue);
+  }
+
+  return int.parse(rows.first.join(''), radix: 2);
+}
+
+int calcCO2ScrubberRating(Iterable<Iterable<int>> report) {
+  final rows = report.toList();
+
+  var bit = 0;
+
+  for (var bit = 0; rows.length > 1; bit++) {
+    // Find the least common value in a given column by summing the column and
+    // seeing if the total is more than half. If so, the least common value is
+    // 0, if not, it's 1.
+    final columnSum = rows
+        .map((e) => e.elementAt(bit))
+        .reduce((value, element) => value + element);
+    final leastCommonValue = columnSum * 2 >= rows.length ? 0 : 1;
+
+    rows.removeWhere((element) => element.elementAt(bit) != leastCommonValue);
+  }
+
+  return int.parse(rows.first.join(''), radix: 2);
+}
+
+int calcLifeSupportRating(Iterable<Iterable<int>> report) =>
+    calcOxygenGeneratorRating(report) * calcCO2ScrubberRating(report);
+
 void main(List<String> args) {
   final path = args.isNotEmpty ? args[0] : 'day03/day03.txt';
-  final course = File(path).readAsLinesSync();
+  final rawData = File(path).readAsLinesSync();
 
-  final power = calcPowerConsumption(course);
+  // Convert '01101' to [0, 1, 1, 0, 1]
+  final report = convertRawData(rawData);
+
+  final power = calcPowerConsumption(report);
   print('Power consumption: $power');
+
+  final lifeSupport = calcLifeSupportRating(report);
+  print('Life support rating: $lifeSupport');
 }
