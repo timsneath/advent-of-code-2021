@@ -30,4 +30,15 @@ void main() {
     }
     expect(field.countOverlaps(), equals(5));
   });
+
+  test('Include diagonals', () {
+    final lines = <Line>[];
+    for (final row in rawData.split('\n')) {
+      lines.add(Line.fromString(row));
+    }
+
+    final field = Field(10, 10);
+    field.plotLines(lines);
+    expect(field.countOverlaps(), equals(12));
+  });
 }
