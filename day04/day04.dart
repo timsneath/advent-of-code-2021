@@ -68,8 +68,15 @@ class Board {
 
   /// Returns true if this number leads to a winning board.
   bool drawNumber(int number) {
-    drawn[board.indexOf(number)] = true;
-    return checkVictory();
+    final indexOfNumber = board.indexOf(number);
+    if (indexOfNumber != -1) {
+      drawn[board.indexOf(number)] = true;
+      return checkVictory();
+    } else {
+      // Number wasn't found, so the board is no more "winning" than it was
+      // before.
+      return false;
+    }
   }
 
   int sumUnmarkedNumbers() {
