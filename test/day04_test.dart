@@ -51,24 +51,46 @@ void main() {
   test('Worked example on all boards', () {
     final boards = initBoards();
     final winningBoard = boards.playRounds(randomOrder);
-    expect(winningBoard, equals(2));
+    expect(winningBoard.first, equals(2));
   });
 
   test('Winning column', () {
     final boards = initBoards();
     final winningBoard = boards.playRounds([15, 18, 8, 11, 21]);
-    expect(winningBoard, equals(1));
+    expect(winningBoard.first, equals(1));
   });
 
   test('Winning row', () {
     final boards = initBoards();
     final winningBoard = boards.playRounds([21, 9, 6, 14, 0, 16, 2, 7]);
-    expect(winningBoard, equals(0));
+    expect(winningBoard.first, equals(0));
   });
 
   test('No winning board', () {
     final boards = initBoards();
     final winningBoard = boards.playRounds([15, 18, 8, 11, 22, 7]);
-    expect(winningBoard, equals(-1));
+    expect(winningBoard, isEmpty);
+  });
+
+  test('Boards win in order', () {
+    final boards = initBoards();
+    var winningBoard =
+        boards.playRounds([7, 4, 9, 5, 11, 17, 23, 2, 0, 14, 21, 24]);
+    expect(winningBoard, equals([2]));
+
+    winningBoard = boards.playRound(10);
+    expect(winningBoard, isEmpty);
+    winningBoard = boards.playRound(16);
+    expect(winningBoard, equals([0]));
+
+    winningBoard = boards.playRound(13);
+    expect(winningBoard, equals([1]));
+    expect(boards[1].sumUnmarkedNumbers(), equals(148));
+  });
+
+  test('Play all', () {
+    final boards = initBoards();
+    var winningBoards = boards.playRounds(randomOrder);
+    expect(winningBoards, equals([2, 0, 1]));
   });
 }

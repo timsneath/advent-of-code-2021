@@ -1,27 +1,29 @@
 import 'dart:io';
 
 extension Bingo on List<Board> {
-  /// Plays a round of bingo on a list of boards. If a board wins, return the
-  /// board number, else return -1.
-  int playRound(int number) {
+  /// Plays a round of bingo on a list of boards. Return the index of every
+  /// board that won on that round.
+  List<int> playRound(int number) {
+    var winningBoards = <int>[];
     for (var idx = 0; idx < length; idx++) {
       if (this[idx].drawNumber(number)) {
-        return idx;
+        winningBoards.add(idx);
       }
     }
-
-    return -1;
+    return winningBoards;
   }
 
-  /// Plays multiple rounds of bingo on a list of boards. If a board wins, return the
-  /// board number, else return -1.
-  int playRounds(List<int> numbers) {
+  /// Plays multiple rounds of bingo on a list of boards. Return the index of every
+  /// board that won during those rounds, in order of victory.
+  List<int> playRounds(List<int> numbers) {
+    var winningBoards = <int>[];
+
     for (final number in numbers) {
       final result = playRound(number);
-      if (result != -1) return result;
+      winningBoards.addAll(result);
     }
 
-    return -1;
+    return winningBoards;
   }
 }
 
@@ -32,6 +34,8 @@ class Board {
   // Which board entries have been drawn so far
   late final List<bool> drawn;
 
+  bool isVictory = false;
+
   Board(List<List<int>> boardList) {
     // Flatten board to a list of integers
     board = [for (var row in boardList) ...row];
@@ -39,6 +43,10 @@ class Board {
       throw ArgumentError('Board should be a 5x5 matrix');
     }
 
+    resetGame();
+  }
+
+  void resetGame() {
     drawn = List<bool>.generate(board.length, (e) => false);
   }
 
@@ -46,6 +54,7 @@ class Board {
     // Check for a victory based on a row
     for (var row = 0; row < 5; row++) {
       if (drawn.getRange(row * 5, (row * 5) + 5).every((elem) => elem)) {
+        isVictory = true;
         return true;
       }
     }
@@ -60,14 +69,20 @@ class Board {
         drawn.elementAt(i + 20),
       ];
 
-      if (column.every((element) => element)) return true;
+      if (column.every((element) => element)) {
+        isVictory = true;
+        return true;
+      }
     }
 
     return false;
   }
 
-  /// Returns true if this number leads to a winning board.
+  /// Returns true if this number leads to a new winning board.
   bool drawNumber(int number) {
+    // Board was already victorious, so this isn't a new victory
+    if (isVictory) return false;
+
     final indexOfNumber = board.indexOf(number);
     if (indexOfNumber != -1) {
       drawn[board.indexOf(number)] = true;
@@ -96,7 +111,7 @@ void main(List<String> args) {
   final rawData = File(path).readAsLinesSync();
 
   // Create a queue of bingo numbers in order that they're called
-  final randomOrder =
+  final calledNumbers =
       rawData[0].split(',').map<int>((e) => int.parse(e)).toList();
 
   // Read bingo boards
@@ -111,14 +126,21 @@ void main(List<String> args) {
   }
 
   // Play bingo
-  for (final number in randomOrder) {
-    final winningBoard = boards.playRound(number);
-    if (winningBoard >= 0) {
-      final score = boards[winningBoard].sumUnmarkedNumbers() * number;
-      print('Winning score: $score');
-      exit(0);
+  var winningBoards = <int>[];
+  var winningScores = <int>[];
+  for (final calledNumber in calledNumbers) {
+    winningBoards = boards.playRound(calledNumber);
+    for (final board in winningBoards) {
+      final score = boards[board].sumUnmarkedNumbers() * calledNumber;
+      winningScores.add(score);
     }
   }
 
-  print('No winning board');
+  // Print results
+  if (winningScores.isEmpty) {
+    print('No winning board');
+  } else {
+    print('First winning score: ${winningScores.first}');
+    print('Last winning score: ${winningScores.last}');
+  }
 }
