@@ -33,4 +33,38 @@ final boards = [
   ])
 ];
 
-void main() {}
+void main() {
+  test('Worked example on a single board', () {
+    final board = boards[2];
+
+    int index = 0;
+    bool isVictory = false;
+
+    do {
+      isVictory = board.drawNumber(randomOrder[index++]);
+    } while (!isVictory && index < randomOrder.length);
+
+    expect(randomOrder[index - 1], equals(24));
+    expect(board.sumUnmarkedNumbers(), equals(188));
+  });
+
+  test('Worked example on all boards', () {
+    final winningBoard = boards.playRounds(randomOrder);
+    expect(winningBoard, equals(2));
+  });
+
+  test('Winning column', () {
+    final winningBoard = boards.playRounds([15, 18, 8, 11, 21]);
+    expect(winningBoard, equals(1));
+  });
+
+  test('Winning row', () {
+    final winningBoard = boards.playRounds([21, 9, 6, 14, 0, 16, 2, 7]);
+    expect(winningBoard, equals(0));
+  });
+
+  test('No winning board', () {
+    final winningBoard = boards.playRounds([15, 18, 8, 11, 22, 7]);
+    expect(winningBoard, equals(-1));
+  });
+}
