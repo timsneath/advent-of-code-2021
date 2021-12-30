@@ -65,10 +65,10 @@ void main() {
     expect(fish.count, equals(5934));
   });
 
-  // test('Sample after 256 days', () {
-  //   final fish = LanternFish([3, 4, 3, 1, 2]);
-  //   fish.addDays(256);
+  test('Sample after 256 days', () {
+    final fish = LanternFish([3, 4, 3, 1, 2]);
+    fish.addDays(256);
 
-  //   expect(fish.count, equals(26984457539));
-  // });
+    expect(fish.count, equals(26984457539));
+  });
 }

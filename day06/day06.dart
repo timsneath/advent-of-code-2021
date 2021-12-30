@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:collection/collection.dart';
 
 class LanternFish {
+  // Number of fish at each timer level
   List<int> fishTally;
 
   LanternFish(this.fishTally) {
@@ -12,7 +13,11 @@ class LanternFish {
 
   void addDay() {
     final spawning = fishTally.first;
+
+    // Rotate entries above 0 down by 1
     fishTally = fishTally.skip(1).toList();
+
+    // After spawning, parent fish have a timer of 6
     fishTally[6] += spawning; // parent
     fishTally.add(spawning); // child
   }
@@ -42,11 +47,12 @@ void main(List<String> args) {
   final rawData = File(path).readAsLinesSync();
 
   final fishData = rawData[0].split(',').map<int>((e) => int.parse(e)).toList();
-  final lanternFish = LanternFish(fishData);
 
+  final lanternFish = LanternFish(fishData);
   lanternFish.addDays(80);
   print('After 80 days, there are ${lanternFish.count} fish.');
 
-  lanternFish.addDays(256);
-  print('After 256 days, there are ${lanternFish.count} fish.');
+  final moreLanternFish = LanternFish(fishData);
+  moreLanternFish.addDays(256);
+  print('After 256 days, there are ${moreLanternFish.count} fish.');
 }
