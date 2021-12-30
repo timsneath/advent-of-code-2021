@@ -1,6 +1,6 @@
 import 'package:test/test.dart';
 
-import '../day05/field.dart';
+import '../day05/plane.dart';
 import '../day05/line.dart';
 import '../day05/point.dart';
 
@@ -18,10 +18,10 @@ void main() {
   });
 
   test('Horizontal line', () {
-    final field = Field(3, 3);
-    field.plotLine(Line(Point(0, 2), Point(2, 2)));
+    final plane = Plane(3, 3);
+    plane.plotLine(Line(Point(0, 2), Point(2, 2)));
     expect(
-        field.data,
+        plane.data,
         equals([
           [0, 0, 0],
           [0, 0, 0],
@@ -30,10 +30,10 @@ void main() {
   });
 
   test('Vertical line', () {
-    final field = Field(3, 3);
-    field.plotLine(Line(Point(0, 0), Point(0, 2)));
+    final plane = Plane(3, 3);
+    plane.plotLine(Line(Point(0, 0), Point(0, 2)));
     expect(
-        field.data,
+        plane.data,
         equals([
           [1, 0, 0],
           [1, 0, 0],
@@ -42,10 +42,10 @@ void main() {
   });
 
   test('Diagonal line 1', () {
-    final field = Field(3, 3);
-    field.plotLine(Line(Point(0, 0), Point(2, 2)));
+    final plane = Plane(3, 3);
+    plane.plotLine(Line(Point(0, 0), Point(2, 2)));
     expect(
-        field.data,
+        plane.data,
         equals([
           [1, 0, 0],
           [0, 1, 0],
@@ -54,10 +54,10 @@ void main() {
   });
 
   test('Diagonal line 2', () {
-    final field = Field(3, 3);
-    field.plotLine(Line(Point(2, 0), Point(0, 2)));
+    final plane = Plane(3, 3);
+    plane.plotLine(Line(Point(2, 0), Point(0, 2)));
     expect(
-        field.data,
+        plane.data,
         equals([
           [0, 0, 1],
           [0, 1, 0],
@@ -66,12 +66,12 @@ void main() {
   });
 
   test('Cross', () {
-    final field = Field(3, 3);
-    field.plotLine(Line(Point(0, 0), Point(2, 2)));
-    field.plotLine(Line(Point(2, 0), Point(0, 2)));
+    final plane = Plane(3, 3);
+    plane.plotLine(Line(Point(0, 0), Point(2, 2)));
+    plane.plotLine(Line(Point(2, 0), Point(0, 2)));
 
     expect(
-        field.data,
+        plane.data,
         equals([
           [1, 0, 1],
           [0, 2, 0],
@@ -85,13 +85,13 @@ void main() {
       lines.add(Line.fromString(row));
     }
 
-    final field = Field(10, 10);
+    final plane = Plane(10, 10);
     for (final line in lines) {
       if (line.isHorizontal || line.isVertical) {
-        field.plotLine(line);
+        plane.plotLine(line);
       }
     }
-    expect(field.countOverlaps(), equals(5));
+    expect(plane.countOverlaps(), equals(5));
   });
 
   test('Include diagonals', () {
@@ -100,8 +100,8 @@ void main() {
       lines.add(Line.fromString(row));
     }
 
-    final field = Field(10, 10);
-    field.plotLines(lines);
-    expect(field.countOverlaps(), equals(12));
+    final plane = Plane(10, 10);
+    plane.plotLines(lines);
+    expect(plane.countOverlaps(), equals(12));
   });
 }

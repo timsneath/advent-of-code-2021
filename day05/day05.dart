@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:math' show max;
 
-import 'field.dart';
+import 'plane.dart';
 import 'line.dart';
 
 void main(List<String> args) {
@@ -18,9 +18,18 @@ void main(List<String> args) {
   final height =
       lines.map((e) => max(e.from.x, e.to.x)).reduce((a, b) => max(a, b)) + 1;
 
-  final field = Field(width, height);
-  field.plotLines(lines);
+  final plane1 = Plane(width, height);
+  for (final line in lines) {
+    if (line.isHorizontal || line.isVertical) {
+      plane1.plotLine(line);
+    }
+  }
+  print('Overlapping points (only horizontal and vertical): '
+      '${plane1.countOverlaps()}');
 
-  final overlaps = field.countOverlaps();
-  print('Overlapping points: $overlaps');
+  final plane2 = Plane(width, height);
+  plane2.plotLines(lines);
+
+  print('Overlapping points (all): '
+      '${plane2.countOverlaps()}');
 }

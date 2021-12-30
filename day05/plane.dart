@@ -1,13 +1,14 @@
-import 'dart:math' show min, max;
+import 'dart:math' show max;
 
 import 'line.dart';
 
-class Field {
+class Plane {
   final int width;
   final int height;
+
   late final List<List<int>> data;
 
-  Field(this.width, this.height) {
+  Plane(this.width, this.height) {
     data = List<List<int>>.generate(
         width, (_) => List<int>.generate(height, (_) => 0));
   }
