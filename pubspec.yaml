@@ -1,14 +1,15 @@
 name: advent_of_code_2021
 description: Playground for Advent of Code 2021 submissions. 
-version: 1.0.0
+
+publish_to: none
 
 environment:
-  sdk: '>=2.16.0-55.0.dev <3.0.0'
+  sdk: '>=2.15.0 <3.0.0'
 
 dependencies: 
   async: ^2.8.2
 
 dev_dependencies:
   lints: ^1.0.0
-  test: ^1.19.5
+  test: ^1.20.1
 
