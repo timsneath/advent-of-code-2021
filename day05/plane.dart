@@ -27,22 +27,14 @@ class Plane {
     }
   }
 
-  void plotLines(List<Line> lines) {
-    for (final line in lines) {
-      plotLine(line);
-    }
-  }
+  void plotLines(List<Line> lines) => lines.forEach(plotLine);
 
   @override
   String toString() {
     final buffer = StringBuffer();
     for (final row in data) {
       for (final col in row) {
-        if (col == 0) {
-          buffer.write('.');
-        } else {
-          buffer.write(col);
-        }
+        buffer.write(col == 0 ? '.' : col);
       }
       buffer.writeln();
     }
@@ -51,8 +43,10 @@ class Plane {
   }
 
   int countOverlaps() {
-    return ([for (var row in data) ...row]
-          ..retainWhere((element) => element > 1))
-        .length;
+    // Flatten the two-dimensional list into a single-dimensional list
+    final points = [for (var row in data) ...row];
+
+    points.retainWhere((e) => e > 1);
+    return points.length;
   }
 }
