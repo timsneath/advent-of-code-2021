@@ -1,21 +1,18 @@
 import 'dart:io';
 
-class LanternFish {
-  final List<int> fishList;
+import 'package:collection/collection.dart';
 
-  LanternFish(this.fishList);
+class LanternFish {
+  List<int> fishTally;
+
+  LanternFish(this.fishTally) {
+    fishTally = List<int>.generate(
+        8, (index) => fishTally.where((element) => element == index).length);
+  }
 
   void addDay() {
-    final startLength = fishList.length;
-    for (var idx = 0; idx < startLength; idx++) {
-      fishList[idx]--;
-
-      // Spawn new lantern fish
-      if (fishList[idx] == -1) {
-        fishList[idx] = 6;
-        fishList.add(8);
-      }
-    }
+    fishTally = [...fishTally.skip(1), fishTally.first];
+    fishTally[5] += fishTally[7];
   }
 
   void addDays(int days) {
@@ -24,7 +21,18 @@ class LanternFish {
     }
   }
 
-  int get count => fishList.length;
+  int get count => fishTally.fold(0, (p, e) => p + e);
+
+  @override
+  int get hashCode => fishTally.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      other is LanternFish &&
+      ListEquality<int>().equals(fishTally, other.fishTally);
+
+  @override
+  String toString() => fishTally.toString();
 }
 
 void main(List<String> args) {
@@ -35,6 +43,8 @@ void main(List<String> args) {
   final lanternFish = LanternFish(fishData);
 
   lanternFish.addDays(80);
-
   print('After 80 days, there are ${lanternFish.count} fish.');
+
+  lanternFish.addDays(256);
+  print('After 256 days, there are ${lanternFish.count} fish.');
 }
