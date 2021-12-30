@@ -13,13 +13,13 @@ class Field {
   }
 
   void plotLine(Line line) {
-    final lengthX = (line.to.x - line.from.x).abs() + 1;
-    final lengthY = (line.to.y - line.from.y).abs() + 1;
-    final steps =
-        max((line.to.x - line.from.x).abs(), (line.to.y - line.from.y).abs());
+    final distX = line.to.x - line.from.x;
+    final distY = line.to.y - line.from.y;
 
-    final deltaX = ((line.to.x - line.from.x) / steps).ceil();
-    final deltaY = ((line.to.y - line.from.y) / steps).ceil();
+    final steps = max(distX.abs(), distY.abs());
+
+    final deltaX = (distX / steps).ceil();
+    final deltaY = (distY / steps).ceil();
 
     for (var delta = 0; delta <= steps; delta++) {
       data[line.from.y + (deltaY * delta)][line.from.x + (deltaX * delta)]++;
