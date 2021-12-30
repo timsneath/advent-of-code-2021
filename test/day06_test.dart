@@ -5,22 +5,22 @@ import '../day06/day06.dart';
 void main() {
   test('Convert lists of fish into tally represenation', () {
     final fish = LanternFish([3]);
-    expect(fish.fishTally, equals([0, 0, 0, 1, 0, 0, 0, 0]));
+    expect(fish.fishTally, equals([0, 0, 0, 1, 0, 0, 0, 0, 0]));
   });
 
   test('Follow fish through days', () {
     final fish = LanternFish([3]);
-    expect(fish.fishTally, equals([0, 0, 0, 1, 0, 0, 0, 0]));
+    expect(fish.fishTally, equals([0, 0, 0, 1, 0, 0, 0, 0, 0]));
     fish.addDay();
-    expect(fish.fishTally, equals([0, 0, 1, 0, 0, 0, 0, 0]));
+    expect(fish.fishTally, equals([0, 0, 1, 0, 0, 0, 0, 0, 0]));
     fish.addDay();
-    expect(fish.fishTally, equals([0, 1, 0, 0, 0, 0, 0, 0]));
+    expect(fish.fishTally, equals([0, 1, 0, 0, 0, 0, 0, 0, 0]));
     fish.addDay();
-    expect(fish.fishTally, equals([1, 0, 0, 0, 0, 0, 0, 0]));
+    expect(fish.fishTally, equals([1, 0, 0, 0, 0, 0, 0, 0, 0]));
     fish.addDay();
-    expect(fish.fishTally, equals([0, 0, 0, 0, 0, 1, 0, 1]));
+    expect(fish.fishTally, equals([0, 0, 0, 0, 0, 0, 1, 0, 1]));
     fish.addDay();
-    expect(fish.fishTally, equals([0, 0, 0, 0, 1, 0, 1, 0]));
+    expect(fish.fishTally, equals([0, 0, 0, 0, 0, 1, 0, 1, 0]));
   });
 
   test('Sample after multiple days', () {

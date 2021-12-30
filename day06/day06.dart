@@ -7,12 +7,14 @@ class LanternFish {
 
   LanternFish(this.fishTally) {
     fishTally = List<int>.generate(
-        8, (index) => fishTally.where((element) => element == index).length);
+        9, (index) => fishTally.where((element) => element == index).length);
   }
 
   void addDay() {
-    fishTally = [...fishTally.skip(1), fishTally.first];
-    fishTally[5] += fishTally[7];
+    final spawning = fishTally.first;
+    fishTally = fishTally.skip(1).toList();
+    fishTally[6] += spawning; // parent
+    fishTally.add(spawning); // child
   }
 
   void addDays(int days) {
