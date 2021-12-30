@@ -41,7 +41,7 @@ void main() {
         ]));
   });
 
-  test('Diagonal line', () {
+  test('Diagonal line 1', () {
     final field = Field(3, 3);
     field.plotLine(Line(Point(0, 0), Point(2, 2)));
     expect(
@@ -50,6 +50,18 @@ void main() {
           [1, 0, 0],
           [0, 1, 0],
           [0, 0, 1],
+        ]));
+  });
+
+  test('Diagonal line 2', () {
+    final field = Field(3, 3);
+    field.plotLine(Line(Point(2, 0), Point(0, 2)));
+    expect(
+        field.data,
+        equals([
+          [0, 0, 1],
+          [0, 1, 0],
+          [1, 0, 0],
         ]));
   });
 
