@@ -25,5 +25,16 @@ jobs:
       - name: Analyze project source
         run: dart analyze --fatal-warnings
 
-      - name: Run tests
-        run: dart test
+      - name: Add code coverage package
+        run: dart pub global activate coverage
+
+      - name: Generate code coverage
+        run: dart test --coverage=coverage
+
+      - name: Convert code coverage into lcov file
+        run: dart pub global run coverage:format_coverage --lcov --check-ignore --in=coverage --out=lcov.info --packages=.packages --report-on=lib
+
+      - name: Upload code coverage
+        uses: codecov/codecov-action@v2.1.0
+        with:
+          files: lcov.info
