@@ -35,4 +35,18 @@ void main() {
         signals.map((e) => e.uniqueSegments).reduce((v, e) => v + e);
     expect(uniqueSegments, equals(26));
   });
+
+  test('Decode first signal', () {
+    final signals = rawData.split('\n').map((e) => Signal.fromString(e));
+    final signal = signals.first;
+    expect(signal.decoded, equals(8394));
+  });
+
+  test('Decode all signals', () {
+    final signals = rawData.split('\n').map((e) => Signal.fromString(e));
+    final decoded = signals.map((signal) => signal.decoded);
+
+    expect(decoded,
+        equals([8394, 9781, 1197, 9361, 4873, 8418, 4548, 1625, 8717, 4315]));
+  });
 }
