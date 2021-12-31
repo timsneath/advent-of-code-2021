@@ -42,6 +42,26 @@ void main() {
     expect(signal.decoded, equals(8394));
   });
 
+  test('Decode first signal', () {
+    final signals = rawData.split('\n').map((e) => Signal.fromString(e));
+    final signal = signals.first;
+    expect(signal.decoded, equals(8394));
+  });
+
+  test('Decode another signal', () {
+    final signal = Signal.fromString(
+        'edbfga begcd cbg gc gcadebf fbgde acbgfd abcde gfcbed gfec | '
+        'fcgedb cgb dgebacf gc');
+    expect(signal.decoded, equals(9781));
+  });
+
+  test('Decode a signal containing five digit segments', () {
+    final signal = Signal.fromString(
+        'edbfga begcd cbg gc gcadebf fbgde acbgfd abcde gfcbed gfec | '
+        'begcd fbgde abcde fbgde');
+    expect(signal.decoded, equals(3525));
+  });
+
   test('Decode all signals', () {
     final signals = rawData.split('\n').map((e) => Signal.fromString(e));
     final decoded = signals.map((signal) => signal.decoded);

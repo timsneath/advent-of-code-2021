@@ -38,7 +38,6 @@ class Signal {
     }
 
     final digitOne = input.firstWhere((segment) => segment.length == 2);
-    final digitFour = input.firstWhere((segment) => segment.length == 4);
 
     // could be '2' or '3' or '5'
     if (segmentedDigit.length == 5) {
@@ -47,8 +46,8 @@ class Signal {
         return '3';
       }
       // could be '2' or '5'
-      final digitNine =
-          input.firstWhere((element) => (decodeSegment(element) == '9'));
+      final digitNine = input.firstWhere(
+          (element) => (element.length == 6 && decodeSegment(element) == '9'));
       if (matchSegments(digitNine, segmentedDigit)) {
         return '5';
       } else {
@@ -62,6 +61,7 @@ class Signal {
       if (!matchSegments(segmentedDigit, digitOne)) {
         return '6';
       }
+      final digitFour = input.firstWhere((segment) => segment.length == 4);
       // A '9' is a '4' with an additional top segment
       if (matchSegments(segmentedDigit, digitFour)) {
         return '9';
@@ -73,6 +73,7 @@ class Signal {
     return null;
   }
 
+  /// Return the digits representing a specific signal.
   int get decoded {
     final decodedString =
         output.map((segmentedDigit) => decodeSegment(segmentedDigit)).join('');
@@ -95,4 +96,7 @@ void main(List<String> args) {
   final uniqueSegments =
       signals.map((e) => e.uniqueSegments).reduce((v, e) => v + e);
   print('Unique segments in output: $uniqueSegments');
+
+  final total = signals.map((signal) => signal.decoded).reduce((v, e) => v + e);
+  print('Total of all signals: $total');
 }
