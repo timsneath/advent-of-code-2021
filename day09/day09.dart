@@ -29,24 +29,28 @@ class HeightMap {
     return HeightMap(converted);
   }
 
-  List<int> get lowPointRiskLevels {
+  List<int> get lowPoints {
     final riskLevels = <int>[];
     for (var y = 0; y < data.length; y++) {
       for (var x = 0; x < data.first.length; x++) {
         if (isLowest(x, y)) {
-          riskLevels.add(at(x, y) + 1);
+          riskLevels.add(at(x, y));
         }
       }
     }
     return riskLevels;
   }
+
+  Iterable<int> get riskLevels => lowPoints.map((p) => p + 1);
+
+  int get sumOfLowPointRiskLevels => riskLevels.reduce((v, e) => v + e);
 }
 
 void main(List<String> args) {
   final path = args.isNotEmpty ? args[0] : 'day09/day09.txt';
   final rawData = File(path).readAsLinesSync();
   final heightMap = HeightMap.fromRawData(rawData);
-  final riskLevels = heightMap.lowPointRiskLevels.reduce((v, e) => v + e);
+  final riskLevels = heightMap.sumOfLowPointRiskLevels;
 
   print('Sum of lowest risk levels: $riskLevels');
 }
