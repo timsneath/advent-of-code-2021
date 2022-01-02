@@ -1,9 +1,9 @@
 import 'dart:io';
-import 'dart:math' show max;
 
 import 'plane.dart';
 import 'line.dart';
 
+// coverage:ignore-start
 void main(List<String> args) {
   final path = args.isNotEmpty ? args[0] : 'day05/day05.txt';
   final rawData = File(path).readAsLinesSync();
@@ -13,23 +13,13 @@ void main(List<String> args) {
     lines.add(Line.fromString(row));
   }
 
-  final width =
-      lines.map((e) => max(e.from.y, e.to.y)).reduce((a, b) => max(a, b)) + 1;
-  final height =
-      lines.map((e) => max(e.from.x, e.to.x)).reduce((a, b) => max(a, b)) + 1;
-
-  final plane1 = Plane(width, height);
-  for (final line in lines) {
-    if (line.isHorizontal || line.isVertical) {
-      plane1.plotLine(line);
-    }
-  }
+  final nonDiagonalLines =
+      lines.where((line) => line.isHorizontal || line.isVertical);
+  final plane = Plane.fromLines(nonDiagonalLines);
   print('Overlapping points (only horizontal and vertical): '
-      '${plane1.countOverlaps()}');
+      '${plane.countOverlaps()}');
 
-  final plane2 = Plane(width, height);
-  plane2.plotLines(lines);
-
-  print('Overlapping points (all): '
-      '${plane2.countOverlaps()}');
+  final allPlane = Plane.fromLines(lines);
+  print('Overlapping points (all): ${allPlane.countOverlaps()}');
 }
+// coverage:ignore-end
