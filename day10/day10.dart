@@ -8,51 +8,84 @@ const illegalCharacterScores = <String, int>{
   ')': 3,
   ']': 57,
   '}': 1197,
-  '>': 25137
+  '>': 25137,
 };
 
+const autocompleteScores = <String, int>{
+  ')': 1,
+  ']': 2,
+  '}': 3,
+  '>': 4,
+};
+
+class SyntaxResult {
+  final ListQueue<String> stack;
+  final String expected;
+
+  const SyntaxResult(this.stack, this.expected);
+
+  bool get hasSyntaxError => expected.isNotEmpty;
+  bool get isComplete => expected.isEmpty && stack.isEmpty;
+  bool get isIncomplete => expected.isEmpty && stack.isNotEmpty;
+}
+
 class SyntaxChecker {
-  List<String> data;
+  final List<String> data;
+  late final List<SyntaxResult> syntaxResults;
 
-  SyntaxChecker(this.data);
+  SyntaxChecker(this.data) {
+    syntaxResults = data.map(checkSyntax).toList();
+  }
 
-  /// Scores a given line for syntax errors.
+  /// Check a given line for syntax errors.
   ///
-  /// Returns the score based on the first illegal character identified. Returns
-  /// -1 for an incomplete line. Returns 0 for a well-formed, complete line.
-  static int scoreSyntaxErrors(String line) {
+  /// If an error, return the current stack and the ch
+  SyntaxResult checkSyntax(String line) {
     final stack = ListQueue<String>();
     for (final char in line.split('')) {
       final bracket = openBrackets.indexOf(char);
       if (bracket != -1) {
         // Open bracket found, so add matching close bracket to the stack
-        stack.addLast(closeBrackets[bracket]);
+        stack.addFirst(closeBrackets[bracket]);
       } else {
         // No open bracket found, so expect matching close bracket to last open
         // bracket added to the stack.
-        final expected = stack.removeLast();
+        final expected = stack.removeFirst();
         if (char != expected) {
-          // Line is corrupted, so return score for unexpected character
-          return illegalCharacterScores[char]!;
+          // Line is corrupted, so return the stack and the unexpected character
+          return SyntaxResult(stack, char);
         }
       }
     }
-    // We're at the end of the line. If there are any entries left in the stack,
-    // the line is not well-formed.
-    if (stack.isEmpty) {
-      return 0;
-    } else {
-      return -1; // incomplete line
-    }
+    // We're at the end of the line. Return the stack, in case the caller cares
+    // about whether the line is incomplete or not.
+    return SyntaxResult(stack, '');
   }
 
-  static bool hasSyntaxError(String line) => scoreSyntaxErrors(line) > 0;
-  static bool isComplete(String line) => scoreSyntaxErrors(line) == 0;
-  static bool isIncomplete(String line) => scoreSyntaxErrors(line) == -1;
-
-  int calculateTotalScore() {
-    final scores = data.map(scoreSyntaxErrors).where((score) => score > 0);
+  int calculateSyntaxErrorScore() {
+    final scores = syntaxResults
+        .where((res) => res.hasSyntaxError)
+        .map((e) => illegalCharacterScores[e.expected]!);
     return scores.reduce((value, element) => value + element);
+  }
+
+  int calculateAutocompleteScoreForStack(ListQueue<String> stack) {
+    int score = 0;
+    for (final char in stack) {
+      score *= 5;
+      score += autocompleteScores[char]!;
+    }
+    return score;
+  }
+
+  int calculateAutocompleteScore() {
+    final incompleteStacks =
+        syntaxResults.where((res) => res.isIncomplete).map((e) => e.stack);
+    final scores = incompleteStacks
+        .map((stack) => calculateAutocompleteScoreForStack(stack))
+        .toList()
+      ..sort();
+    return scores[scores.length ~/ 2];
   }
 }
 
@@ -61,7 +94,10 @@ void main(List<String> args) {
   final path = args.isNotEmpty ? args[0] : 'day10/day10.txt';
   final rawData = File(path).readAsLinesSync();
   final syntaxChecker = SyntaxChecker(rawData);
-  final totalScore = syntaxChecker.calculateTotalScore();
-  print('Total score: $totalScore');
+  final totalScore = syntaxChecker.calculateSyntaxErrorScore();
+  print('Syntax error score: $totalScore');
+
+  final autoCompletionScore = syntaxChecker.calculateAutocompleteScore();
+  print('Autocomplete score: $autoCompletionScore');
 }
 // coverage:ignore-end
