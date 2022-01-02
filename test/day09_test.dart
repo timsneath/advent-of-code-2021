@@ -46,4 +46,19 @@ void main() {
     final heightMap = HeightMap.fromRawData(rawData);
     expect(heightMap.sumOfLowPointRiskLevels, equals(15));
   });
+
+  test('Basins for sample data', () {
+    final heightMap = HeightMap.fromRawData(rawData);
+    final basins = BasinMap(heightMap);
+
+    expect(basins.basinData.first, equals([0, 0, -1, -1, -1, 3, 3, 3, 3, 3]));
+  });
+
+  test('Basin sizes for sample data', () {
+    final heightMap = HeightMap.fromRawData(rawData);
+    final basins = BasinMap(heightMap);
+    final basinSizes = basins.findBasinSizes();
+
+    expect(basinSizes.take(3), equals([14, 9, 9]));
+  });
 }
