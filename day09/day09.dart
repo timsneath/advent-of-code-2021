@@ -7,12 +7,12 @@ class HeightMap {
 
   int at(int x, int y) => data[y][x];
 
-  bool isLowerNorth(int x, int y) => y > 0 && at(x, y - 1) < at(x, y);
+  bool isLowerNorth(int x, int y) => y > 0 && at(x, y - 1) <= at(x, y);
   bool isLowerEast(int x, int y) =>
-      x < data.first.length - 1 && at(x + 1, y) < at(x, y);
+      x < data.first.length - 1 && at(x + 1, y) <= at(x, y);
   bool isLowerSouth(int x, int y) =>
-      y < data.length - 1 && at(x, y + 1) < at(x, y);
-  bool isLowerWest(int x, int y) => x > 0 && at(x - 1, y) < at(x, y);
+      y < data.length - 1 && at(x, y + 1) <= at(x, y);
+  bool isLowerWest(int x, int y) => x > 0 && at(x - 1, y) <= at(x, y);
 
   bool isLowest(int x, int y) =>
       !isLowerNorth(x, y) &&
@@ -50,7 +50,8 @@ void main(List<String> args) {
   final path = args.isNotEmpty ? args[0] : 'day09/day09.txt';
   final rawData = File(path).readAsLinesSync();
   final heightMap = HeightMap.fromRawData(rawData);
-  final riskLevels = heightMap.sumOfLowPointRiskLevels;
+  final riskLevels = heightMap.riskLevels;
+  print(riskLevels.length);
 
-  print('Sum of lowest risk levels: $riskLevels');
+  print('Sum of lowest risk levels: ${heightMap.sumOfLowPointRiskLevels}');
 }

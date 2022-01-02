@@ -37,6 +37,11 @@ void main() {
     expect(heightMap.lowPoints, unorderedEquals(<int>[1, 0, 5, 5]));
   });
 
+  test('Risk levels', () {
+    final heightMap = HeightMap.fromRawData(rawData);
+    expect(heightMap.riskLevels, unorderedEquals(<int>[2, 1, 6, 6]));
+  });
+
   test('Sum of lowest risk levels', () {
     final heightMap = HeightMap.fromRawData(rawData);
     expect(heightMap.sumOfLowPointRiskLevels, equals(15));
