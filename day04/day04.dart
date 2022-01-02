@@ -106,6 +106,7 @@ class Board {
   }
 }
 
+// coverage:ignore-start
 void main(List<String> args) {
   final path = args.isNotEmpty ? args[0] : 'day04/day04.txt';
   final rawData = File(path).readAsLinesSync();
@@ -144,3 +145,4 @@ void main(List<String> args) {
     print('Last winning score: ${winningScores.last}');
   }
 }
+// coverage:ignore-end
