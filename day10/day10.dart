@@ -20,13 +20,13 @@ const autocompleteScores = <String, int>{
 
 class SyntaxResult {
   final ListQueue<String> stack;
-  final String expected;
+  final String unexpectedChar;
 
-  const SyntaxResult(this.stack, this.expected);
+  const SyntaxResult(this.stack, this.unexpectedChar);
 
-  bool get hasSyntaxError => expected.isNotEmpty;
-  bool get isComplete => expected.isEmpty && stack.isEmpty;
-  bool get isIncomplete => expected.isEmpty && stack.isNotEmpty;
+  bool get hasSyntaxError => unexpectedChar.isNotEmpty;
+  bool get isComplete => unexpectedChar.isEmpty && stack.isEmpty;
+  bool get isIncomplete => unexpectedChar.isEmpty && stack.isNotEmpty;
 }
 
 class SyntaxChecker {
@@ -65,7 +65,7 @@ class SyntaxChecker {
   int calculateSyntaxErrorScore() {
     final scores = syntaxResults
         .where((res) => res.hasSyntaxError)
-        .map((e) => illegalCharacterScores[e.expected]!);
+        .map((e) => illegalCharacterScores[e.unexpectedChar]!);
     return scores.reduce((value, element) => value + element);
   }
 
