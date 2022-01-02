@@ -116,6 +116,7 @@ class HeightMap {
   int get sumOfLowPointRiskLevels => riskLevels.reduce((v, e) => v + e);
 }
 
+// coverage:ignore-start
 void main(List<String> args) {
   final path = args.isNotEmpty ? args[0] : 'day09/day09.txt';
   final rawData = File(path).readAsLinesSync();
@@ -129,3 +130,4 @@ void main(List<String> args) {
   print('Number of basins: ${basins.basinData.length}');
   print('Product of three largest basin sizes: $product');
 }
+// coverage:ignore-end

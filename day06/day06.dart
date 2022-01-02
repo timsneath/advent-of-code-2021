@@ -42,6 +42,7 @@ class LanternFish {
   String toString() => fishTally.toString();
 }
 
+// coverage:ignore-start
 void main(List<String> args) {
   final path = args.isNotEmpty ? args[0] : 'day06/day06.txt';
   final rawData = File(path).readAsLinesSync();
@@ -56,3 +57,4 @@ void main(List<String> args) {
   moreLanternFish.addDays(256);
   print('After 256 days, there are ${moreLanternFish.count} fish.');
 }
+// coverage:ignore-end

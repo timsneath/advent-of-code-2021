@@ -88,6 +88,7 @@ class Signal {
   }
 }
 
+// coverage:ignore-start
 void main(List<String> args) {
   final path = args.isNotEmpty ? args[0] : 'day08/day08.txt';
   final rawData = File(path).readAsLinesSync();
@@ -100,3 +101,4 @@ void main(List<String> args) {
   final total = signals.map((signal) => signal.decoded).reduce((v, e) => v + e);
   print('Total of all signals: $total');
 }
+// coverage:ignore-end

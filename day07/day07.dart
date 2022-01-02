@@ -31,6 +31,7 @@ int minimumNeededFuel(
   return fuel.reduce((value, element) => min(value, element));
 }
 
+// coverage:ignore-start
 void main(List<String> args) {
   final path = args.isNotEmpty ? args[0] : 'day07/day07.txt';
   final rawData = File(path).readAsLinesSync();
@@ -40,3 +41,4 @@ void main(List<String> args) {
   final fuelRequired = minimumNeededFuel(crabPositions, fibonacciFuelAlgorithm);
   print('Minimum required: $fuelRequired');
 }
+// coverage:ignore-end

@@ -56,6 +56,7 @@ int calcCO2ScrubberRating(Iterable<Iterable<int>> report) {
 int calcLifeSupportRating(Iterable<Iterable<int>> report) =>
     calcOxygenGeneratorRating(report) * calcCO2ScrubberRating(report);
 
+// coverage:ignore-start
 void main(List<String> args) {
   final path = args.isNotEmpty ? args[0] : 'day03/day03.txt';
   final rawData = File(path).readAsLinesSync();
@@ -69,3 +70,4 @@ void main(List<String> args) {
   final lifeSupport = calcLifeSupportRating(report);
   print('Life support rating: $lifeSupport');
 }
+// coverage:ignore-end

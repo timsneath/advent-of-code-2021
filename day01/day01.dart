@@ -37,6 +37,7 @@ Future<int> tallySlidingWindowDepthIncreases(Stream<int> depths) async {
   return count;
 }
 
+// coverage:ignore-start
 void main(List<String> args) async {
   final path = args.isNotEmpty ? args[0] : 'day01/day01.txt';
   final depthStream = File(path)
@@ -48,3 +49,4 @@ void main(List<String> args) async {
   final depthIncreases = await tallySlidingWindowDepthIncreases(depthStream);
   print('Number of increased depths: $depthIncreases');
 }
+// coverage:ignore-end

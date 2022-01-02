@@ -53,6 +53,7 @@ Future<int> updatedPlotCourse(Stream<String> course) async {
   return horizontalPosition * depth;
 }
 
+// coverage:ignore-start
 void main(List<String> args) async {
   final path = args.isNotEmpty ? args[0] : 'day02/day02.txt';
   final course =
@@ -61,3 +62,4 @@ void main(List<String> args) async {
   final courseDistance = await updatedPlotCourse(course);
   print('Course distance: $courseDistance');
 }
+// coverage:ignore-end
