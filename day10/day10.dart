@@ -16,14 +16,20 @@ class SyntaxChecker {
 
   SyntaxChecker(this.data);
 
-  int scoreSyntaxErrors(String line) {
+  /// Scores a given line for syntax errors.
+  ///
+  /// Returns the score based on the first illegal character identified. Returns
+  /// -1 for an incomplete line. Returns 0 for a well-formed, complete line.
+  static int scoreSyntaxErrors(String line) {
     final stack = ListQueue<String>();
     for (final char in line.split('')) {
       final bracket = openBrackets.indexOf(char);
       if (bracket != -1) {
-        // Bracket found, so add matching close bracket to the stack
+        // Open bracket found, so add matching close bracket to the stack
         stack.addLast(closeBrackets[bracket]);
       } else {
+        // No open bracket found, so expect matching close bracket to last open
+        // bracket added to the stack.
         final expected = stack.removeLast();
         if (char != expected) {
           // Line is corrupted, so return score for unexpected character
@@ -31,13 +37,21 @@ class SyntaxChecker {
         }
       }
     }
-    return 0;
+    // We're at the end of the line. If there are any entries left in the stack,
+    // the line is not well-formed.
+    if (stack.isEmpty) {
+      return 0;
+    } else {
+      return -1; // incomplete line
+    }
   }
 
-  bool hasSyntaxError(String line) => scoreSyntaxErrors(line) > 0;
+  static bool hasSyntaxError(String line) => scoreSyntaxErrors(line) > 0;
+  static bool isComplete(String line) => scoreSyntaxErrors(line) == 0;
+  static bool isIncomplete(String line) => scoreSyntaxErrors(line) == -1;
 
   int calculateTotalScore() {
-    final scores = data.map(scoreSyntaxErrors);
+    final scores = data.map(scoreSyntaxErrors).where((score) => score > 0);
     return scores.reduce((value, element) => value + element);
   }
 }
