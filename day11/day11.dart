@@ -31,6 +31,15 @@ class Cavern {
   bool notInGrid(int x, int y) =>
       (x < 0 || x >= width) || (y < 0 || y >= height);
 
+  bool get isSynchronizedFlash {
+    for (var y = 0; y < height; y++) {
+      for (var x = 0; x < width; x++) {
+        if (at(x, y) != 0) return false;
+      }
+    }
+    return true;
+  }
+
   void completeDay() {
     for (var y = 0; y < height; y++) {
       for (var x = 0; x < width; x++) {
@@ -49,13 +58,18 @@ class Cavern {
 
   void addDay() {
     incrementAll();
-    for (var y = 0; y < height; y++) {
-      for (var x = 0; x < width; x++) {
-        if (at(x, y) > 9) {
-          flash(x, y);
+    int startCount;
+    // Keep repeating until we've covered all flashes
+    do {
+      startCount = flashCount;
+      for (var y = 0; y < height; y++) {
+        for (var x = 0; x < width; x++) {
+          if (at(x, y) > 9) {
+            flash(x, y);
+          }
         }
       }
-    }
+    } while (startCount != flashCount);
     completeDay();
   }
 
@@ -63,6 +77,15 @@ class Cavern {
     for (int x = days; x > 0; x--) {
       addDay();
     }
+  }
+
+  int firstSynchronizedFlash() {
+    int dayCount = 0;
+    do {
+      addDay();
+      dayCount++;
+    } while (!isSynchronizedFlash);
+    return dayCount;
   }
 
   void flash(int x, int y) {
@@ -88,10 +111,14 @@ class Cavern {
 
 // coverage:ignore-start
 void main(List<String> args) {
-  final path = args.isNotEmpty ? args[0] : 'day10/day10.txt';
+  final path = args.isNotEmpty ? args[0] : 'day11/day11.txt';
   final rawData = File(path).readAsLinesSync();
   final cavern = Cavern.fromRawData(rawData);
   cavern.addDays(100);
   print('There have been ${cavern.flashCount} flashes.');
+
+  final cavern2 = Cavern.fromRawData(rawData);
+  final firstSyncEvent = cavern2.firstSynchronizedFlash();
+  print('First synchronization event is after $firstSyncEvent days');
 }
 // coverage:ignore-end

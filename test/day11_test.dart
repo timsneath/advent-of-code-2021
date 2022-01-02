@@ -130,4 +130,27 @@ void main() {
 0532250600
 0032240000'''));
   });
+
+  test('day 10 flashcount', () {
+    final cavern = Cavern.fromRawData(sampleData);
+    cavern.addDays(10);
+    expect(cavern.flashCount, equals(204));
+  });
+
+  test('day 100 flashcount', () {
+    final cavern = Cavern.fromRawData(sampleData);
+    cavern.addDays(100);
+    expect(cavern.flashCount, equals(1656));
+  });
+
+  test('day 195 flashes', () {
+    final cavern = Cavern.fromRawData(sampleData);
+    cavern.addDays(195);
+    expect(cavern.grid, everyElement(<int>[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]));
+  });
+
+  test('first synchronized count', () {
+    final cavern = Cavern.fromRawData(sampleData);
+    expect(cavern.firstSynchronizedFlash(), equals(195));
+  });
 }
