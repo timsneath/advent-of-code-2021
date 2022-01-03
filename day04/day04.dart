@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:collection/collection.dart';
-
 extension Bingo on List<Board> {
   /// Plays a round of bingo on a list of boards. Return the index of every
   /// board that won on that round.
@@ -40,7 +38,7 @@ class Board {
 
   Board(List<List<int>> boardList) {
     // Flatten board to a list of integers
-    board = boardList.flattened.toList();
+    board = [for (var row in boardList) ...row];
     if (board.length != 25) {
       throw ArgumentError('Board should be a 5x5 matrix');
     }
