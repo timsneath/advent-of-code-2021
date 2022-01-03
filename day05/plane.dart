@@ -2,7 +2,7 @@ import 'dart:math' show max;
 
 import 'package:collection/collection.dart';
 
-import 'line.dart';
+import '../shared/line.dart';
 
 class Plane {
   final int width;
