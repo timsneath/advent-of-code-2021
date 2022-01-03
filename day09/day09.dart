@@ -56,7 +56,7 @@ class BasinMap {
   }
 
   List<int> findBasinSizes() {
-    List<int?> flattenedData = [for (var row in basinData) ...row];
+    final flattenedData = basinData.flattened;
     List<int> basinSizes = <int>[];
     for (var basinIndex = 0; basinIndex <= basinCount; basinIndex++) {
       final basinSize = flattenedData.where((e) => e == basinIndex);
