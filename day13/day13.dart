@@ -31,6 +31,15 @@ class Paper {
   void plotPoint(Point point) => data[point.y][point.x] = true;
 
   int get visibleDots => data.flattened.where((e) => e).length;
+
+  @override
+  String toString() =>
+      data.map((row) => row.map((cell) => cell ? '#' : '.').join()).join('\n');
+
+  Paper fold(FoldInstruction foldInstruction) {
+    // TODO: Implement
+    return Paper(3, 3);
+  }
 }
 
 enum Axis { x, y }
