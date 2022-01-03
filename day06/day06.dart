@@ -31,14 +31,6 @@ class LanternFish {
   int get count => fishTally.sum;
 
   @override
-  int get hashCode => fishTally.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      other is LanternFish &&
-      ListEquality<int>().equals(fishTally, other.fishTally);
-
-  @override
   String toString() => fishTally.toString();
 }
 
