@@ -1,5 +1,7 @@
 import 'dart:math' show max;
 
+import 'package:collection/collection.dart';
+
 import 'line.dart';
 
 class Plane {
@@ -51,10 +53,7 @@ class Plane {
   }
 
   int countOverlaps() {
-    // Flatten the two-dimensional list into a single-dimensional list
-    final points = [for (var row in data) ...row];
-
-    points.retainWhere((e) => e > 1);
+    final points = data.flattened.toList()..retainWhere((e) => e > 1);
     return points.length;
   }
 }

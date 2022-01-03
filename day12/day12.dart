@@ -31,9 +31,6 @@ class CaveMap {
     return CaveMap(edges, smallCaveMaxVisits);
   }
 
-  @override
-  String toString() => edges.join('\n');
-
   List<int> countDistribution(List<String> items) {
     final uniqueItems = items.toSet();
 

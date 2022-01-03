@@ -3,6 +3,10 @@ import 'package:test/test.dart';
 import '../day12/day12.dart';
 
 void main() {
+  test('toString()', () {
+    expect(Edge('start', 'A').toString(), equals('start-A'));
+  });
+
   group('Part 1', () {
     test('Valid paths 1', () {
       const sampleData = <String>[

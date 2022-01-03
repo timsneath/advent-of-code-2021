@@ -28,7 +28,7 @@ class LanternFish {
     }
   }
 
-  int get count => fishTally.fold(0, (p, e) => p + e);
+  int get count => fishTally.sum;
 
   @override
   int get hashCode => fishTally.hashCode;
