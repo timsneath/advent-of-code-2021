@@ -1,5 +1,8 @@
 import 'dart:io';
-import 'dart:math' show min, max;
+
+import 'package:collection/collection.dart';
+
+import '../shared/utils.dart';
 
 // Used for part 1 solution -- crabs take same amount of fuel to go each step
 int linearFuelAlgorithm(int distance) => distance;
@@ -16,19 +19,16 @@ int fibonacciFuelAlgorithm(int distance) {
 
 int fuelToAlignCrabs(
         int pos, List<int> crabsPositions, int Function(int) fuelAlgorithm) =>
-    crabsPositions
-        .map((e) => fuelAlgorithm((pos - e).abs()))
-        .reduce((val, elem) => val + elem);
+    crabsPositions.map((e) => fuelAlgorithm((pos - e).abs())).sum;
 
 int minimumNeededFuel(
     List<int> crabsPositions, int Function(int) fuelAlgorithm) {
-  final largestPosition =
-      crabsPositions.reduce((value, element) => max(value, element));
+  final largestPosition = crabsPositions.max;
 
   final fuel = List<int>.generate(largestPosition,
       ((index) => fuelToAlignCrabs(index, crabsPositions, fuelAlgorithm)));
 
-  return fuel.reduce((value, element) => min(value, element));
+  return fuel.min;
 }
 
 // coverage:ignore-start

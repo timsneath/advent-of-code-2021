@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:collection/collection.dart';
+
 class BasinMap {
   HeightMap heightMap;
   late final List<List<int?>> basinData;
@@ -113,7 +115,7 @@ class HeightMap {
 
   Iterable<int> get riskLevels => lowPoints.map((p) => p + 1);
 
-  int get sumOfLowPointRiskLevels => riskLevels.reduce((v, e) => v + e);
+  int get sumOfLowPointRiskLevels => riskLevels.sum;
 }
 
 // coverage:ignore-start

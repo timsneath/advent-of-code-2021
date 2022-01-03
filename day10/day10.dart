@@ -1,6 +1,8 @@
 import 'dart:collection';
 import 'dart:io';
 
+import 'package:collection/collection.dart';
+
 const openBrackets = ['(', '[', '{', '<'];
 const closeBrackets = [')', ']', '}', '>'];
 
@@ -66,7 +68,7 @@ class SyntaxChecker {
     final scores = syntaxResults
         .where((res) => res.hasSyntaxError)
         .map((e) => illegalCharacterScores[e.unexpectedChar]!);
-    return scores.reduce((value, element) => value + element);
+    return scores.sum;
   }
 
   int calculateAutocompleteScoreForStack(ListQueue<String> stack) {

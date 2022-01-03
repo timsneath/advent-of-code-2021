@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:collection/collection.dart';
+
 class Signal {
   final List<String> input;
   final List<String> output;
@@ -94,11 +96,10 @@ void main(List<String> args) {
   final rawData = File(path).readAsLinesSync();
   final signals = rawData.map((e) => Signal.fromString(e));
 
-  final uniqueSegments =
-      signals.map((e) => e.uniqueSegments).reduce((v, e) => v + e);
+  final uniqueSegments = signals.map((e) => e.uniqueSegments).sum;
   print('Unique segments in output: $uniqueSegments');
 
-  final total = signals.map((signal) => signal.decoded).reduce((v, e) => v + e);
+  final total = signals.map((signal) => signal.decoded).sum;
   print('Total of all signals: $total');
 }
 // coverage:ignore-end
