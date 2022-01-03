@@ -80,9 +80,8 @@ void main() {
   });
 
   test('Cross', () {
-    final plane = Plane(3, 3);
-    plane.plotLine(Line(Point(0, 0), Point(2, 2)));
-    plane.plotLine(Line(Point(2, 0), Point(0, 2)));
+    final plane = Plane.fromLines(
+        [Line(Point(0, 0), Point(2, 2)), Line(Point(2, 0), Point(0, 2))]);
 
     expect(
         plane.data,
