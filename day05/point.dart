@@ -14,7 +14,7 @@ class Point {
 
   @override
   String toString() {
-    return '$x, $y';
+    return '$x,$y';
   }
 
   @override
