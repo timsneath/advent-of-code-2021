@@ -34,6 +34,16 @@ List<Board> initBoards() => [
     ];
 
 void main() {
+  test('Board of wrong dimensions', () {
+    final board = [
+      [14, 21, 17, 24, 4],
+      [10, 16, 15, 9, 19],
+      [18, 8, 23, 26, 20],
+      [22, 11, 13, 6, 5]
+    ];
+    expect(() => Board(board), throwsArgumentError);
+  });
+
   test('Worked example on a single board', () {
     final board = initBoards()[2];
 
