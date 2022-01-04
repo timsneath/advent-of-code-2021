@@ -1,14 +1,15 @@
 import 'dart:collection';
-import 'dart:convert';
 import 'dart:io';
+
+import 'package:collection/collection.dart';
 
 import '../shared/utils.dart';
 
-Future<int> tallyDepthIncreases(Stream<int> depths) async {
+int tallyDepthIncreases(Iterable<int> depths) {
   int currentDepth = maxInt;
   int count = 0;
 
-  await for (final newDepth in depths) {
+  for (final newDepth in depths) {
     if (newDepth > currentDepth) count++;
 
     currentDepth = newDepth;
@@ -17,18 +18,16 @@ Future<int> tallyDepthIncreases(Stream<int> depths) async {
   return count;
 }
 
-int sum(int a, int b) => a + b;
-
-Future<int> tallySlidingWindowDepthIncreases(Stream<int> depths) async {
+int tallySlidingWindowDepthIncreases(Iterable<int> depths) {
   final window = ListQueue<int>(4);
   int count = 0;
 
-  await for (final depth in depths) {
+  for (final depth in depths) {
     window.addLast(depth);
     if (window.length < 4) continue;
 
-    final currentWindow = window.take(3).reduce(sum);
-    final newWindow = window.skip(1).reduce(sum);
+    final currentWindow = window.take(3).sum;
+    final newWindow = window.skip(1).sum;
     if (newWindow > currentWindow) count++;
 
     window.removeFirst();
@@ -38,15 +37,15 @@ Future<int> tallySlidingWindowDepthIncreases(Stream<int> depths) async {
 }
 
 // coverage:ignore-start
-void main(List<String> args) async {
+void main(List<String> args) {
   final path = args.isNotEmpty ? args[0] : 'day01/day01.txt';
-  final depthStream = File(path)
-      .openRead()
-      .transform(utf8.decoder)
-      .transform(LineSplitter())
-      .map((depth) => int.parse(depth));
+  final rawData = File(path).readAsLinesSync();
+  final depths = rawData.map((row) => int.parse(row));
 
-  final depthIncreases = await tallySlidingWindowDepthIncreases(depthStream);
+  final depthIncreases = tallyDepthIncreases(depths);
   print('Number of increased depths: $depthIncreases');
+
+  final depthIncreasesSlidingWindow = tallySlidingWindowDepthIncreases(depths);
+  print('Number of increased depths: $depthIncreasesSlidingWindow');
 }
 // coverage:ignore-end

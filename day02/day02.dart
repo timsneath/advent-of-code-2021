@@ -1,11 +1,10 @@
-import 'dart:convert';
 import 'dart:io';
 
-Future<int> plotCourse(Stream<String> course) async {
+int plotCourse(Iterable<String> course) {
   int horizontalPosition = 0;
   int depth = 0;
 
-  await for (final step in course) {
+  for (final step in course) {
     final stepComponents = step.split(' ');
     final String direction = stepComponents[0];
     final int length = int.parse(stepComponents[1]);
@@ -26,12 +25,12 @@ Future<int> plotCourse(Stream<String> course) async {
   return horizontalPosition * depth;
 }
 
-Future<int> updatedPlotCourse(Stream<String> course) async {
+int updatedPlotCourse(Iterable<String> course) {
   int horizontalPosition = 0;
   int depth = 0;
   int aim = 0;
 
-  await for (final step in course) {
+  for (final step in course) {
     final stepComponents = step.split(' ');
     final String direction = stepComponents[0];
     final int units = int.parse(stepComponents[1]);
@@ -56,10 +55,12 @@ Future<int> updatedPlotCourse(Stream<String> course) async {
 // coverage:ignore-start
 void main(List<String> args) async {
   final path = args.isNotEmpty ? args[0] : 'day02/day02.txt';
-  final course =
-      File(path).openRead().transform(utf8.decoder).transform(LineSplitter());
+  final course = File(path).readAsLinesSync();
 
-  final courseDistance = await updatedPlotCourse(course);
-  print('Course distance: $courseDistance');
+  final courseDistance = updatedPlotCourse(course);
+  print('Course distance [first algorithm]: $courseDistance');
+
+  final updatedCourseDistance = updatedPlotCourse(course);
+  print('Course distance [second algorithm]: $updatedCourseDistance');
 }
 // coverage:ignore-end
