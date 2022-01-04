@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:collection/collection.dart';
-import 'package:test/expect.dart';
 
 import '../shared/point.dart';
 import '../shared/utils.dart';
@@ -114,12 +113,19 @@ void main(List<String> args) {
 
   final paper = Paper.fromRawData(rawData.sublist(0, boundary));
   final foldInstructions =
-      rawData.sublist(boundary + 1).map(FoldInstruction.fromString);
+      rawData.sublist(boundary + 1).map(FoldInstruction.fromString).toList();
   print('There are ${foldInstructions.length} fold instructions.');
   print('Paper dimensions: ${paper.width}x${paper.height}');
-  final newPaper = paper.fold(foldInstructions.first);
+
+  print('\nFirst fold:');
+  final firstFold = paper.fold(foldInstructions.first);
   print(foldInstructions.first);
-  print('New paper dimensions: ${newPaper.width}x${newPaper.height}');
-  print('Visible dots after first fold: ${newPaper.visibleDots}');
+  print('New paper dimensions: ${firstFold.width}x${firstFold.height}');
+  print('Visible dots after first fold: ${firstFold.visibleDots}');
+
+  print('\nAll folds:');
+  final allFold = paper.foldAll(foldInstructions);
+  print('New paper dimensions: ${allFold.width}x${allFold.height}');
+  print('Visible dots after first fold: ${allFold.visibleDots}');
 }
 // coverage:ignore-end
