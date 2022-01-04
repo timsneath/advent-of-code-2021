@@ -171,5 +171,75 @@ fold along x=2''';
 #.
 #.'''));
     });
+    test('Fold vertically unequal dimensions', () {
+      const providedSample = '''
+8,0
+3,1
+5,1
+0,2
+5,2
+5,3
+0,4
+8,4
+
+fold along x=4''';
+      final rawData = providedSample.split('\n');
+      final boundary = rawData.indexOf('');
+      final foldInstructions =
+          rawData.sublist(boundary + 1).map(FoldInstruction.fromString);
+
+      final paper = Paper.fromRawData(rawData.sublist(0, boundary));
+      expect(paper.toString(), equals('''
+........#
+...#.#...
+#....#...
+.....#...
+#.......#'''));
+      expect(paper.visibleDots, equals(8));
+
+      final folded = paper.fold(foldInstructions.first);
+      expect(folded.width, equals(4));
+      expect(folded.height, equals(5));
+      expect(folded.visibleDots, equals(6));
+      expect(folded.toString(), equals('''
+#...
+...#
+#..#
+...#
+#...'''));
+    });
+
+    test('Fold horizontally', () {
+      const providedSample = '''
+1,0
+4,0
+3,3
+1,4
+2,4
+3,4
+
+fold along y=2''';
+      final rawData = providedSample.split('\n');
+      final boundary = rawData.indexOf('');
+      final foldInstructions =
+          rawData.sublist(boundary + 1).map(FoldInstruction.fromString);
+
+      final paper = Paper.fromRawData(rawData.sublist(0, boundary));
+      expect(paper.toString(), equals('''
+.#..#
+.....
+.....
+...#.
+.###.'''));
+      expect(paper.visibleDots, equals(6));
+
+      final folded = paper.fold(foldInstructions.first);
+      expect(folded.width, equals(5));
+      expect(folded.height, equals(2));
+      expect(folded.visibleDots, equals(5));
+      expect(folded.toString(), equals('''
+.####
+...#.'''));
+    });
   });
 }
