@@ -5,27 +5,50 @@ import 'package:collection/collection.dart';
 import '../shared/point.dart';
 import '../shared/utils.dart';
 
+enum Axis { x, y }
+
+class FoldInstruction {
+  final Axis axis;
+  final int foldLine;
+
+  const FoldInstruction(this.axis, this.foldLine);
+
+  factory FoldInstruction.fromString(String string) =>
+      string.startsWith('fold along x')
+          ? FoldInstruction(Axis.x, int.parse(string.split('=').last))
+          : FoldInstruction(Axis.y, int.parse(string.split('=').last));
+
+  @override
+  String toString() {
+    return 'fold along ${axis.name}=$foldLine';
+  }
+}
+
 class Paper {
   final int width;
   final int height;
 
-  late final List<List<bool>> data;
+  final List<List<bool>> data;
 
-  Paper(this.width, this.height) {
-    data = List<List<bool>>.generate(
-        height, (_) => List<bool>.generate(width, (_) => false));
-  }
+  Paper(this.width, this.height)
+      : data = List<List<bool>>.generate(
+            height, (_) => List<bool>.generate(width, (_) => false));
+
   factory Paper.fromPoints(Iterable<Point> points) {
     final width = points.map((pt) => pt.x).max + 1;
     final height = points.map((pt) => pt.y).max + 1;
 
     return Paper(width, height)..plotPoints(points);
   }
-  factory Paper.fromRawData(List<String> rawData) =>
-      Paper.fromPoints(rawData.map((row) {
-        final rawPoints = row.split(',');
-        return Point(int.parse(rawPoints.first), int.parse(rawPoints.last));
-      }));
+
+  factory Paper.fromRawData(List<String> rawData) {
+    final points = rawData.map((row) {
+      final rawPoints = row.split(',');
+      return Point(int.parse(rawPoints.first), int.parse(rawPoints.last));
+    });
+
+    return Paper.fromPoints(points);
+  }
 
   void plotPoints(Iterable<Point> points) => points.forEach(plotPoint);
   void plotPoint(Point point) => data[point.y][point.x] = true;
@@ -76,32 +99,6 @@ class Paper {
       paper = paper.fold(foldInstruction);
     }
     return paper;
-  }
-}
-
-enum Axis { x, y }
-
-class FoldInstruction {
-  Axis axis;
-  int foldLine;
-
-  FoldInstruction(this.axis, this.foldLine);
-
-  factory FoldInstruction.fromString(String string) {
-    final split = string.split('=');
-    if (split.first[11] == 'x') {
-      return FoldInstruction(Axis.x, int.parse(split.last));
-    } else if (split.first[11] == 'y') {
-      return FoldInstruction(Axis.y, int.parse(split.last));
-    } else {
-      throw ArgumentError(
-          'Fold instruction is not in the form "fold along x=3"');
-    }
-  }
-
-  @override
-  String toString() {
-    return 'fold along ${axis.name}=$foldLine';
   }
 }
 
