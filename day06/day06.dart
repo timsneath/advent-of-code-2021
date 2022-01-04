@@ -4,22 +4,21 @@ import 'package:collection/collection.dart';
 
 class LanternFish {
   // Number of fish at each timer level
-  List<int> fishTally;
+  List<int> fishDist;
 
-  LanternFish(this.fishTally) {
-    fishTally = List<int>.generate(
-        9, (index) => fishTally.where((element) => element == index).length);
-  }
+  LanternFish(List<int> fishTally)
+      : fishDist = List<int>.generate(9,
+            (index) => fishTally.where((element) => element == index).length);
 
   void addDay() {
-    final spawning = fishTally.first;
+    final spawning = fishDist.first;
 
     // Rotate entries above 0 down by 1
-    fishTally = fishTally.skip(1).toList();
+    fishDist = fishDist.skip(1).toList();
 
     // After spawning, parent fish have a timer of 6
-    fishTally[6] += spawning; // parent
-    fishTally.add(spawning); // child
+    fishDist[6] += spawning; // parent
+    fishDist.add(spawning); // child
   }
 
   void addDays(int days) {
@@ -28,18 +27,18 @@ class LanternFish {
     }
   }
 
-  int get count => fishTally.sum;
+  int get count => fishDist.sum;
 
   @override
-  int get hashCode => fishTally.hashCode;
+  int get hashCode => fishDist.hashCode;
 
   @override
   bool operator ==(Object other) =>
       other is LanternFish &&
-      ListEquality<int>().equals(fishTally, other.fishTally);
+      ListEquality<int>().equals(fishDist, other.fishDist);
 
   @override
-  String toString() => fishTally.toString();
+  String toString() => fishDist.toString();
 }
 
 // coverage:ignore-start

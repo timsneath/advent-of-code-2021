@@ -6,28 +6,28 @@ void main() {
   test('Equality match', () {
     final fish1 = LanternFish([3]);
     final fish2 = LanternFish([3]);
-    expect(fish1.fishTally, equals(fish2.fishTally));
+    expect(fish1.fishDist, equals(fish2.fishDist));
   });
 
   test('Convert lists of fish into tally represenation', () {
     final fish = LanternFish([3]);
-    expect(fish.fishTally, equals([0, 0, 0, 1, 0, 0, 0, 0, 0]));
+    expect(fish.fishDist, equals([0, 0, 0, 1, 0, 0, 0, 0, 0]));
     expect(fish.toString(), equals('[0, 0, 0, 1, 0, 0, 0, 0, 0]'));
   });
 
   test('Follow fish through days', () {
     final fish = LanternFish([3]);
-    expect(fish.fishTally, equals([0, 0, 0, 1, 0, 0, 0, 0, 0]));
+    expect(fish.fishDist, equals([0, 0, 0, 1, 0, 0, 0, 0, 0]));
     fish.addDay();
-    expect(fish.fishTally, equals([0, 0, 1, 0, 0, 0, 0, 0, 0]));
+    expect(fish.fishDist, equals([0, 0, 1, 0, 0, 0, 0, 0, 0]));
     fish.addDay();
-    expect(fish.fishTally, equals([0, 1, 0, 0, 0, 0, 0, 0, 0]));
+    expect(fish.fishDist, equals([0, 1, 0, 0, 0, 0, 0, 0, 0]));
     fish.addDay();
-    expect(fish.fishTally, equals([1, 0, 0, 0, 0, 0, 0, 0, 0]));
+    expect(fish.fishDist, equals([1, 0, 0, 0, 0, 0, 0, 0, 0]));
     fish.addDay();
-    expect(fish.fishTally, equals([0, 0, 0, 0, 0, 0, 1, 0, 1]));
+    expect(fish.fishDist, equals([0, 0, 0, 0, 0, 0, 1, 0, 1]));
     fish.addDay();
-    expect(fish.fishTally, equals([0, 0, 0, 0, 0, 1, 0, 1, 0]));
+    expect(fish.fishDist, equals([0, 0, 0, 0, 0, 1, 0, 1, 0]));
   });
 
   test('Sample after multiple days', () {
@@ -61,7 +61,7 @@ void main() {
 
     // fishList == 6, 0, 6, 4, 5, 6, 0, 1, 1, 2, 6, 0, 1,
     //             1, 1, 2, 2, 3, 3, 4, 6, 7, 8, 8, 8, 8
-    expect(fish.fishTally, equals([3, 5, 3, 2, 2, 1, 5, 1, 4]));
+    expect(fish.fishDist, equals([3, 5, 3, 2, 2, 1, 5, 1, 4]));
     expect(fish.count, equals(26));
   });
 

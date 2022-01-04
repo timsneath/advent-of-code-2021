@@ -1,7 +1,7 @@
 import 'dart:io';
 
 class Cavern {
-  late final List<List<int>> grid;
+  final List<List<int>> grid;
   int flashCount = 0;
 
   Cavern(this.grid);
