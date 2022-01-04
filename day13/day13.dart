@@ -108,15 +108,17 @@ void main(List<String> args) {
   final rawData = File(path).readAsLinesSync();
   final boundary = rawData.indexOf('');
 
-  final paper = Paper.fromRawData(rawData.sublist(0, boundary));
+  final points = rawData.sublist(0, boundary);
   final foldInstructions =
       rawData.sublist(boundary + 1).map(FoldInstruction.fromString).toList();
+
+  final paper = Paper.fromRawData(points);
   print('There are ${foldInstructions.length} fold instructions.');
   print('Paper dimensions: ${paper.width}x${paper.height}');
 
   print('\nFirst fold:');
-  final firstFold = paper.fold(foldInstructions.first);
   print(foldInstructions.first);
+  final firstFold = paper.fold(foldInstructions.first);
   print('New paper dimensions: ${firstFold.width}x${firstFold.height}');
   print('Visible dots after first fold: ${firstFold.visibleDots}');
 

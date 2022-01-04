@@ -109,8 +109,9 @@ fold along x=5''';
     });
   });
 
-  group('Secondary sample', () {
-    const providedSample = '''
+  group('Secondary samples', () {
+    test('Fold in half', () {
+      const providedSample = '''
 0,0
 7,7
 0,7
@@ -118,8 +119,6 @@ fold along x=5''';
 
 fold along y=4
 fold along x=4''';
-
-    test('Fold in half', () {
       final rawData = providedSample.split('\n');
       final boundary = rawData.indexOf('');
       final paper = Paper.fromRawData(rawData.sublist(0, boundary));
@@ -135,6 +134,42 @@ fold along x=4''';
       expect(folded2.width, equals(4));
       expect(folded2.height, equals(4));
       expect(folded2.visibleDots, equals(1));
+    });
+
+    test('Fold vertically', () {
+      const providedSample = '''
+3,1
+4,1
+0,2
+4,2
+4,3
+0,4
+
+fold along x=2''';
+      final rawData = providedSample.split('\n');
+      final boundary = rawData.indexOf('');
+      final foldInstructions =
+          rawData.sublist(boundary + 1).map(FoldInstruction.fromString);
+
+      final paper = Paper.fromRawData(rawData.sublist(0, boundary));
+      expect(paper.toString(), equals('''
+.....
+...##
+#...#
+....#
+#....'''));
+      expect(paper.visibleDots, equals(6));
+
+      final folded = paper.fold(foldInstructions.first);
+      expect(folded.width, equals(2));
+      expect(folded.height, equals(5));
+      expect(folded.visibleDots, equals(5));
+      expect(folded.toString(), equals('''
+..
+##
+#.
+#.
+#.'''));
     });
   });
 }
