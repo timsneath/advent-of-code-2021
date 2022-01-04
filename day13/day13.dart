@@ -83,6 +83,9 @@ class Paper {
     }
     for (var row = 0; row < height; row++) {
       for (var idx = foldLine + 1; idx < width; idx++) {
+        if (newPaper.data[row][width - idx - 1] && data[row][idx]) {
+          print('one less overlap');
+        }
         newPaper.data[row][width - idx - 1] |= data[row][idx];
       }
     }
@@ -126,5 +129,6 @@ void main(List<String> args) {
   final allFold = paper.foldAll(foldInstructions);
   print('New paper dimensions: ${allFold.width}x${allFold.height}');
   print('Visible dots after first fold: ${allFold.visibleDots}');
+  print(allFold.toString());
 }
 // coverage:ignore-end
