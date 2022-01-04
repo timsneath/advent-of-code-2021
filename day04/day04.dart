@@ -2,13 +2,17 @@ import 'dart:io';
 
 import 'package:collection/collection.dart';
 
-extension Bingo on List<Board> {
+class GameSet {
+  final List<Board> boards;
+
+  const GameSet(this.boards);
+
   /// Plays a round of bingo on a list of boards. Return the index of every
   /// board that won on that round.
   List<int> playRound(int number) {
     var winningBoards = <int>[];
-    for (var idx = 0; idx < length; idx++) {
-      if (this[idx].drawNumber(number)) {
+    for (var idx = 0; idx < boards.length; idx++) {
+      if (boards[idx].drawNumber(number)) {
         winningBoards.add(idx);
       }
     }
@@ -129,10 +133,11 @@ void main(List<String> args) {
   }
 
   // Play bingo
+  final gameSet = GameSet(boards);
   var winningBoards = <int>[];
   var winningScores = <int>[];
   for (final calledNumber in calledNumbers) {
-    winningBoards = boards.playRound(calledNumber);
+    winningBoards = gameSet.playRound(calledNumber);
     for (final board in winningBoards) {
       final score = boards[board].sumUnmarkedNumbers() * calledNumber;
       winningScores.add(score);
