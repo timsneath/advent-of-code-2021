@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:collection/collection.dart';
+import 'package:test/expect.dart';
 
 import '../shared/point.dart';
 import '../shared/utils.dart';
@@ -36,9 +37,46 @@ class Paper {
   String toString() =>
       data.map((row) => row.map((cell) => cell ? '#' : '.').join()).join('\n');
 
-  Paper fold(FoldInstruction foldInstruction) {
-    // TODO: Implement
-    return Paper(3, 3);
+  Paper foldHorizontally(int foldLine) {
+    final newPaper = Paper(width, foldLine);
+    for (var row = 0; row < foldLine; row++) {
+      for (var idx = 0; idx < width; idx++) {
+        newPaper.data[row][idx] = data[row][idx];
+      }
+    }
+    for (var row = height - 1; row > foldLine; row--) {
+      for (var idx = 0; idx < width; idx++) {
+        newPaper.data[height - row - 1][idx] |= data[row][idx];
+      }
+    }
+    return newPaper;
+  }
+
+  Paper foldVertically(int foldLine) {
+    final newPaper = Paper(foldLine, height);
+    for (var row = 0; row < height; row++) {
+      for (var idx = 0; idx < foldLine; idx++) {
+        newPaper.data[row][idx] = data[row][idx];
+      }
+    }
+    for (var row = 0; row < height; row++) {
+      for (var idx = foldLine + 1; idx < width; idx++) {
+        newPaper.data[row][width - idx - 1] |= data[row][idx];
+      }
+    }
+    return newPaper;
+  }
+
+  Paper fold(FoldInstruction foldInstruction) => foldInstruction.axis == Axis.y
+      ? foldHorizontally(foldInstruction.foldLine)
+      : foldVertically(foldInstruction.foldLine);
+
+  Paper foldAll(List<FoldInstruction> foldInstructions) {
+    Paper paper = this;
+    for (final foldInstruction in foldInstructions) {
+      paper = paper.fold(foldInstruction);
+    }
+    return paper;
   }
 }
 
@@ -61,18 +99,27 @@ class FoldInstruction {
           'Fold instruction is not in the form "fold along x=3"');
     }
   }
+
+  @override
+  String toString() {
+    return 'fold along ${axis.name}=$foldLine';
+  }
 }
 
 // coverage:ignore-start
 void main(List<String> args) {
   final path = args.isNotEmpty ? args[0] : 'day13/day13.txt';
   final rawData = File(path).readAsLinesSync();
-  final boundary = rawData.indexOf('\n');
+  final boundary = rawData.indexOf('');
 
   final paper = Paper.fromRawData(rawData.sublist(0, boundary));
   final foldInstructions =
       rawData.sublist(boundary + 1).map(FoldInstruction.fromString);
+  print('There are ${foldInstructions.length} fold instructions.');
   print('Paper dimensions: ${paper.width}x${paper.height}');
-  print('# fold instructions: ${foldInstructions.length}');
+  final newPaper = paper.fold(foldInstructions.first);
+  print(foldInstructions.first);
+  print('New paper dimensions: ${newPaper.width}x${newPaper.height}');
+  print('Visible dots after first fold: ${newPaper.visibleDots}');
 }
 // coverage:ignore-end

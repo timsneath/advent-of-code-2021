@@ -34,6 +34,7 @@ void main() {
         rawData.sublist(boundary + 1).map(FoldInstruction.fromString);
     expect(paper.visibleDots, equals(18));
     expect(foldInstructions.length, equals(2));
+    expect(foldInstructions.first.toString(), equals('fold along y=7'));
   });
 
   test('Plot points', () {
@@ -56,5 +57,42 @@ void main() {
 ......#...#
 #..........
 #.#........'''));
+  });
+
+  test('Vertical fold', () {
+    final rawData = sampleData.split('\n');
+    final boundary = rawData.indexOf('');
+    final paper = Paper.fromRawData(rawData.sublist(0, boundary));
+    final foldInstructions =
+        rawData.sublist(boundary + 1).map(FoldInstruction.fromString);
+    final newPaper = paper.fold(foldInstructions.first);
+
+    expect(newPaper.toString(), equals('''
+#.##..#..#.
+#...#......
+......#...#
+#...#......
+.#.#..#.###
+...........
+...........'''));
+    expect(newPaper.visibleDots, equals(17));
+  });
+
+  test('Horizontal fold', () {
+    final rawData = sampleData.split('\n');
+    final boundary = rawData.indexOf('');
+    final foldInstructions =
+        rawData.sublist(boundary + 1).map(FoldInstruction.fromString).toList();
+    final paper = Paper.fromRawData(rawData.sublist(0, boundary));
+    final newPaper = paper.foldAll(foldInstructions);
+
+    expect(newPaper.toString(), equals('''
+#####
+#...#
+#...#
+#...#
+#####
+.....
+.....'''));
   });
 }
