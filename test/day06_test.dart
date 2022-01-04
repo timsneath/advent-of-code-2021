@@ -4,9 +4,14 @@ import '../day06/day06.dart';
 
 void main() {
   test('Equality match', () {
-    final fish1 = LanternFish([3]);
-    final fish2 = LanternFish([3]);
-    expect(fish1.fishDist, equals(fish2.fishDist));
+    final fish1 = LanternFish([3, 1, 4, 1]);
+    final fish2 = LanternFish([3, 1, 4, 1]);
+    expect(fish1, equals(fish2));
+    expect(fish1.hashCode, equals(fish2.hashCode));
+
+    fish2.addDay();
+    expect(fish1, isNot(equals(fish2)));
+    expect(fish1.hashCode, isNot(equals(fish2.hashCode)));
   });
 
   test('Convert lists of fish into tally represenation', () {

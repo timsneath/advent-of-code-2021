@@ -30,7 +30,7 @@ class LanternFish {
   int get count => fishDist.sum;
 
   @override
-  int get hashCode => fishDist.hashCode;
+  int get hashCode => fishDist.reduce((a, b) => (a + 1) * (b + 1));
 
   @override
   bool operator ==(Object other) =>
