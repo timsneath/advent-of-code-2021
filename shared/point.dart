@@ -1,3 +1,6 @@
+import 'package:meta/meta.dart';
+
+@immutable
 class Point {
   final int x;
   final int y;

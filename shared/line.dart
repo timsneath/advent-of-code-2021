@@ -1,5 +1,8 @@
+import 'package:meta/meta.dart';
+
 import 'point.dart';
 
+@immutable
 class Line {
   final Point from;
   final Point to;

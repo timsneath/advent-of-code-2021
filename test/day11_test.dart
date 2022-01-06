@@ -38,8 +38,7 @@ void main() {
   });
 
   test('Simple example', () {
-    final cavern = Cavern.fromRawData(simpleData);
-    cavern.addDay();
+    final cavern = Cavern.fromRawData(simpleData)..addDay();
     expect(cavern.toString(), equals('''
 11111
 11111
@@ -49,8 +48,7 @@ void main() {
   });
 
   test('Adjacent flashes', () {
-    final cavern = Cavern.fromRawData(readyToFlashData);
-    cavern.addDay();
+    final cavern = Cavern.fromRawData(readyToFlashData)..addDay();
     expect(cavern.toString(), equals('''
 34543
 40004
@@ -68,8 +66,7 @@ void main() {
   });
 
   test('day 1', () {
-    final cavern = Cavern.fromRawData(sampleData);
-    cavern.addDay();
+    final cavern = Cavern.fromRawData(sampleData)..addDay();
     expect(cavern.toString(), equals('''
 6594254334
 3856965822
@@ -84,8 +81,7 @@ void main() {
   });
 
   test('day 2', () {
-    final cavern = Cavern.fromRawData(sampleData);
-    cavern.addDays(2);
+    final cavern = Cavern.fromRawData(sampleData)..addDays(2);
     expect(cavern.toString(), equals('''
 8807476555
 5089087054
@@ -100,8 +96,7 @@ void main() {
   });
 
   test('day 3', () {
-    final cavern = Cavern.fromRawData(sampleData);
-    cavern.addDays(3);
+    final cavern = Cavern.fromRawData(sampleData)..addDays(3);
     expect(cavern.toString(), equals('''
 0050900866
 8500800575
@@ -116,8 +111,7 @@ void main() {
   });
 
   test('day 10', () {
-    final cavern = Cavern.fromRawData(sampleData);
-    cavern.addDays(10);
+    final cavern = Cavern.fromRawData(sampleData)..addDays(10);
     expect(cavern.toString(), equals('''
 0481112976
 0031112009
@@ -132,20 +126,17 @@ void main() {
   });
 
   test('day 10 flashcount', () {
-    final cavern = Cavern.fromRawData(sampleData);
-    cavern.addDays(10);
+    final cavern = Cavern.fromRawData(sampleData)..addDays(10);
     expect(cavern.flashCount, equals(204));
   });
 
   test('day 100 flashcount', () {
-    final cavern = Cavern.fromRawData(sampleData);
-    cavern.addDays(100);
+    final cavern = Cavern.fromRawData(sampleData)..addDays(100);
     expect(cavern.flashCount, equals(1656));
   });
 
   test('day 195 flashes', () {
-    final cavern = Cavern.fromRawData(sampleData);
-    cavern.addDays(195);
+    final cavern = Cavern.fromRawData(sampleData)..addDays(195);
     expect(cavern.grid, everyElement(<int>[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]));
   });
 

@@ -10,14 +10,14 @@ const rawData = '0,9 -> 5,9\n8,0 -> 0,8\n9,4 -> 3,4\n2,2 -> 2,1\n7,0 -> 7,4\n'
 void main() {
   group('Primitives', () {
     test('Line', () {
-      final line1 = Line(Point(0, 0), Point(3, 2));
+      const line1 = Line(Point(0, 0), Point(3, 2));
       expect(line1.toString(), equals('0,0 -> 3,2'));
 
-      final line2 = Line(Point(0, 0), Point(3, 2));
+      const line2 = Line(Point(0, 0), Point(3, 2));
       expect(line2.hashCode, equals(line1.hashCode));
       expect(line2, equals(line1));
 
-      final line3 = Line(Point(3, 2), Point(0, 0));
+      const line3 = Line(Point(3, 2), Point(0, 0));
       expect(line3, isNot(equals(line2)));
     });
   });
@@ -32,8 +32,7 @@ void main() {
   });
 
   test('Horizontal line', () {
-    final plane = Plane(3, 3);
-    plane.plotLine(Line(Point(0, 2), Point(2, 2)));
+    final plane = Plane(3, 3)..plotLine(const Line(Point(0, 2), Point(2, 2)));
     expect(
         plane.data,
         equals([
@@ -44,8 +43,7 @@ void main() {
   });
 
   test('Vertical line', () {
-    final plane = Plane(3, 3);
-    plane.plotLine(Line(Point(0, 0), Point(0, 2)));
+    final plane = Plane(3, 3)..plotLine(const Line(Point(0, 0), Point(0, 2)));
     expect(
         plane.data,
         equals([
@@ -56,8 +54,7 @@ void main() {
   });
 
   test('Diagonal line 1', () {
-    final plane = Plane(3, 3);
-    plane.plotLine(Line(Point(0, 0), Point(2, 2)));
+    final plane = Plane(3, 3)..plotLine(const Line(Point(0, 0), Point(2, 2)));
     expect(
         plane.data,
         equals([
@@ -68,8 +65,7 @@ void main() {
   });
 
   test('Diagonal line 2', () {
-    final plane = Plane(3, 3);
-    plane.plotLine(Line(Point(2, 0), Point(0, 2)));
+    final plane = Plane(3, 3)..plotLine(const Line(Point(2, 0), Point(0, 2)));
     expect(
         plane.data,
         equals([
@@ -81,7 +77,7 @@ void main() {
 
   test('Cross', () {
     final plane = Plane.fromLines(
-        [Line(Point(0, 0), Point(2, 2)), Line(Point(2, 0), Point(0, 2))]);
+        const [Line(Point(0, 0), Point(2, 2)), Line(Point(2, 0), Point(0, 2))]);
 
     expect(
         plane.data,
@@ -115,8 +111,7 @@ void main() {
       lines.add(Line.fromString(row));
     }
 
-    final plane = Plane(10, 10);
-    plane.plotLines(lines);
+    final plane = Plane(10, 10)..plotLines(lines);
     expect(plane.countOverlaps(), equals(12));
   });
 }

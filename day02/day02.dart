@@ -1,13 +1,13 @@
 import 'dart:io';
 
 int plotCourse(Iterable<String> course) {
-  int horizontalPosition = 0;
-  int depth = 0;
+  var horizontalPosition = 0;
+  var depth = 0;
 
   for (final step in course) {
     final stepComponents = step.split(' ');
-    final String direction = stepComponents[0];
-    final int length = int.parse(stepComponents[1]);
+    final direction = stepComponents[0];
+    final length = int.parse(stepComponents[1]);
 
     switch (direction) {
       case 'forward':
@@ -26,14 +26,14 @@ int plotCourse(Iterable<String> course) {
 }
 
 int updatedPlotCourse(Iterable<String> course) {
-  int horizontalPosition = 0;
-  int depth = 0;
-  int aim = 0;
+  var horizontalPosition = 0;
+  var depth = 0;
+  var aim = 0;
 
   for (final step in course) {
     final stepComponents = step.split(' ');
-    final String direction = stepComponents[0];
-    final int units = int.parse(stepComponents[1]);
+    final direction = stepComponents[0];
+    final units = int.parse(stepComponents[1]);
 
     switch (direction) {
       case 'forward':
@@ -53,11 +53,11 @@ int updatedPlotCourse(Iterable<String> course) {
 }
 
 // coverage:ignore-start
-void main(List<String> args) async {
+void main(List<String> args) {
   final path = args.isNotEmpty ? args[0] : 'day02/day02.txt';
   final course = File(path).readAsLinesSync();
 
-  final courseDistance = updatedPlotCourse(course);
+  final courseDistance = plotCourse(course);
   print('Course distance [first algorithm]: $courseDistance');
 
   final updatedCourseDistance = updatedPlotCourse(course);

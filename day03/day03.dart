@@ -12,8 +12,8 @@ int calcPowerConsumption(Iterable<Iterable<int>> report) {
   final bGammaRate = bitTally.map((e) => e * 2 >= reportEntries ? '1' : '0');
   final bEpsilonRate = bitTally.map((e) => e * 2 >= reportEntries ? '0' : '1');
 
-  final gammaRate = int.parse(bGammaRate.join(''), radix: 2);
-  final epsilonRate = int.parse(bEpsilonRate.join(''), radix: 2);
+  final gammaRate = int.parse(bGammaRate.join(), radix: 2);
+  final epsilonRate = int.parse(bEpsilonRate.join(), radix: 2);
   return gammaRate * epsilonRate;
 }
 
@@ -32,7 +32,7 @@ int calcOxygenGeneratorRating(Iterable<Iterable<int>> report) {
     rows.removeWhere((element) => element.elementAt(bit) != mostCommonValue);
   }
 
-  return int.parse(rows.first.join(''), radix: 2);
+  return int.parse(rows.first.join(), radix: 2);
 }
 
 int calcCO2ScrubberRating(Iterable<Iterable<int>> report) {
@@ -50,7 +50,7 @@ int calcCO2ScrubberRating(Iterable<Iterable<int>> report) {
     rows.removeWhere((element) => element.elementAt(bit) != leastCommonValue);
   }
 
-  return int.parse(rows.first.join(''), radix: 2);
+  return int.parse(rows.first.join(), radix: 2);
 }
 
 int calcLifeSupportRating(Iterable<Iterable<int>> report) =>

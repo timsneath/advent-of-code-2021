@@ -47,8 +47,8 @@ void main() {
   test('Worked example on a single board', () {
     final board = sampleBoards.last;
 
-    int index = 0;
-    bool isVictory = false;
+    var index = 0;
+    var isVictory = false;
 
     do {
       isVictory = board.drawNumber(randomOrder[index++]);
@@ -100,7 +100,7 @@ void main() {
 
   test('Play all', () {
     final gameSet = GameSet(sampleBoards);
-    var winningBoards = gameSet.playRounds(randomOrder);
+    final winningBoards = gameSet.playRounds(randomOrder);
     expect(winningBoards, equals([2, 0, 1]));
   });
 }

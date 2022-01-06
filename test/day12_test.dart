@@ -4,7 +4,7 @@ import '../day12/day12.dart';
 
 void main() {
   test('toString()', () {
-    expect(Edge('start', 'A').toString(), equals('start-A'));
+    expect(const Edge('start', 'A').toString(), equals('start-A'));
   });
 
   group('Part 1', () {

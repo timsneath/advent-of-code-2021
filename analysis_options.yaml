@@ -4,3 +4,14 @@ analyzer:
   strong-mode: 
     implicit-casts: false
     implicit-dynamic: false
+
+linter:
+  rules:
+    avoid_redundant_argument_values: true
+    cascade_invocations: true
+    lines_longer_than_80_chars: true
+    omit_local_variable_types: true
+    prefer_const_constructors: true
+    prefer_const_literals_to_create_immutables: true
+    unnecessary_lambdas: true
+    unnecessary_parenthesis: true

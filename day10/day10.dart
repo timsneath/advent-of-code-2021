@@ -72,7 +72,7 @@ class SyntaxChecker {
   }
 
   int calculateAutocompleteScoreForStack(ListQueue<String> stack) {
-    int score = 0;
+    var score = 0;
     for (final char in stack) {
       score *= 5;
       score += autocompleteScores[char]!;
@@ -84,7 +84,7 @@ class SyntaxChecker {
     final incompleteStacks =
         syntaxResults.where((res) => res.isIncomplete).map((e) => e.stack);
     final scores = incompleteStacks
-        .map((stack) => calculateAutocompleteScoreForStack(stack))
+        .map(calculateAutocompleteScoreForStack)
         .toList()
       ..sort();
     return scores[scores.length ~/ 2];

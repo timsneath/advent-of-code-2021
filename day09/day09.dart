@@ -57,7 +57,7 @@ class BasinMap {
 
   List<int> findBasinSizes() {
     final flattenedData = basinData.flattened;
-    List<int> basinSizes = <int>[];
+    final basinSizes = <int>[];
     for (var basinIndex = 0; basinIndex <= basinCount; basinIndex++) {
       final basinSize = flattenedData.where((e) => e == basinIndex);
       if (basinSize.isNotEmpty) {
@@ -93,9 +93,9 @@ class HeightMap {
       !isLowerSouth(x, y);
 
   factory HeightMap.fromRawData(List<String> rawData) {
-    final List<List<int>> converted = [];
+    final converted = <List<int>>[];
     for (final row in rawData) {
-      final cols = row.split('').map((e) => int.parse(e)).toList();
+      final cols = row.split('').map(int.parse).toList();
       converted.add(cols);
     }
     return HeightMap(converted);

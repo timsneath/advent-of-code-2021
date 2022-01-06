@@ -10,7 +10,7 @@ class GameSet {
   /// Plays a round of bingo on a list of boards. Return the index of every
   /// board that won on that round.
   List<int> playRound(int number) {
-    var winningBoards = <int>[];
+    final winningBoards = <int>[];
     for (var idx = 0; idx < boards.length; idx++) {
       if (boards[idx].drawNumber(number)) {
         winningBoards.add(idx);
@@ -19,10 +19,10 @@ class GameSet {
     return winningBoards;
   }
 
-  /// Plays multiple rounds of bingo on a list of boards. Return the index of every
-  /// board that won during those rounds, in order of victory.
+  /// Plays multiple rounds of bingo on a list of boards. Return the index of
+  /// every board that won during those rounds, in order of victory.
   List<int> playRounds(List<int> numbers) {
-    var winningBoards = <int>[];
+    final winningBoards = <int>[];
 
     for (final number in numbers) {
       final result = playRound(number);
@@ -118,8 +118,7 @@ void main(List<String> args) {
   final rawData = File(path).readAsLinesSync();
 
   // Create a queue of bingo numbers in order that they're called
-  final calledNumbers =
-      rawData[0].split(',').map<int>((e) => int.parse(e)).toList();
+  final calledNumbers = rawData[0].split(',').map<int>(int.parse).toList();
 
   // Read bingo boards
   final boards = <Board>[];
@@ -127,7 +126,7 @@ void main(List<String> args) {
     final board = <List<int>>[];
     for (var bingoRow = 0; bingoRow < 5; bingoRow++) {
       final rawRow = rawData[dataRow + bingoRow].trimLeft();
-      board.add(rawRow.split(RegExp(r'\s+')).map((e) => int.parse(e)).toList());
+      board.add(rawRow.split(RegExp(r'\s+')).map(int.parse).toList());
     }
     boards.add(Board(board));
   }
@@ -135,7 +134,7 @@ void main(List<String> args) {
   // Play bingo
   final gameSet = GameSet(boards);
   var winningBoards = <int>[];
-  var winningScores = <int>[];
+  final winningScores = <int>[];
   for (final calledNumber in calledNumbers) {
     winningBoards = gameSet.playRound(calledNumber);
     for (final board in winningBoards) {

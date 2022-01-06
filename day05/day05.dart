@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'plane.dart';
 import '../shared/line.dart';
+import 'plane.dart';
 
 // coverage:ignore-start
 void main(List<String> args) {

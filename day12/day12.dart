@@ -25,8 +25,9 @@ class CaveMap {
 
       // You can traverse in both directions, so we add both to the list of
       // edges.
-      edges.add(Edge(fromTo.first, fromTo.last));
-      edges.add(Edge(fromTo.last, fromTo.first));
+      edges
+        ..add(Edge(fromTo.first, fromTo.last))
+        ..add(Edge(fromTo.last, fromTo.first));
     }
     return CaveMap(edges, smallCaveMaxVisits);
   }
@@ -82,7 +83,7 @@ class CaveMap {
   }
 
   // Returns a list of comma-separated paths from start to end
-  Set<String> findPaths() => findFrom(Edge(null, 'start'), ['start'])
+  Set<String> findPaths() => findFrom(const Edge(null, 'start'), ['start'])
       .map((path) => path.join(','))
       .toSet();
 }
@@ -98,7 +99,7 @@ void main(List<String> args) {
 
   final caveMap2 = CaveMap.fromRawData(rawData, 2);
   final paths2 = caveMap2.findPaths();
-  print(
-      'Number of paths if one small cave can be visited twice: ${paths2.length}');
+  print('Number of paths if one small cave can be visited twice: '
+      '${paths2.length}');
 }
 // coverage:ignore-end

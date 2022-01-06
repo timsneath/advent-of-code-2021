@@ -6,8 +6,8 @@ import 'package:collection/collection.dart';
 import '../shared/utils.dart';
 
 int tallyDepthIncreases(Iterable<int> depths) {
-  int currentDepth = maxInt;
-  int count = 0;
+  var currentDepth = maxInt;
+  var count = 0;
 
   for (final newDepth in depths) {
     if (newDepth > currentDepth) count++;
@@ -20,7 +20,7 @@ int tallyDepthIncreases(Iterable<int> depths) {
 
 int tallySlidingWindowDepthIncreases(Iterable<int> depths) {
   final window = ListQueue<int>(4);
-  int count = 0;
+  var count = 0;
 
   for (final depth in depths) {
     window.addLast(depth);
@@ -40,7 +40,7 @@ int tallySlidingWindowDepthIncreases(Iterable<int> depths) {
 void main(List<String> args) {
   final path = args.isNotEmpty ? args[0] : 'day01/day01.txt';
   final rawData = File(path).readAsLinesSync();
-  final depths = rawData.map((row) => int.parse(row));
+  final depths = rawData.map(int.parse);
 
   final depthIncreases = tallyDepthIncreases(depths);
   print('Number of increased depths: $depthIncreases');

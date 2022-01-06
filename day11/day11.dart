@@ -9,13 +9,13 @@ class Cavern {
   factory Cavern.fromRawData(List<String> rawData) {
     final grid = <List<int>>[];
     for (final row in rawData) {
-      grid.add(row.split('').map((c) => int.parse(c)).toList());
+      grid.add(row.split('').map(int.parse).toList());
     }
     return Cavern(grid);
   }
 
   @override
-  String toString() => grid.map((row) => row.join('')).join('\n');
+  String toString() => grid.map((row) => row.join()).join('\n');
 
   int get height => grid.length;
   int get width => grid.first.length;
@@ -74,13 +74,13 @@ class Cavern {
   }
 
   void addDays(int days) {
-    for (int x = days; x > 0; x--) {
+    for (var x = days; x > 0; x--) {
       addDay();
     }
   }
 
   int firstSynchronizedFlash() {
-    int dayCount = 0;
+    var dayCount = 0;
     do {
       addDay();
       dayCount++;
@@ -113,8 +113,7 @@ class Cavern {
 void main(List<String> args) {
   final path = args.isNotEmpty ? args[0] : 'day11/day11.txt';
   final rawData = File(path).readAsLinesSync();
-  final cavern = Cavern.fromRawData(rawData);
-  cavern.addDays(100);
+  final cavern = Cavern.fromRawData(rawData)..addDays(100);
   print('There have been ${cavern.flashCount} flashes.');
 
   final cavern2 = Cavern.fromRawData(rawData);

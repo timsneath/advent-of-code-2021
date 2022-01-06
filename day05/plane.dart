@@ -16,10 +16,8 @@ class Plane {
   }
 
   factory Plane.fromLines(Iterable<Line> lines) {
-    final width =
-        lines.map((e) => max(e.from.y, e.to.y)).reduce((a, b) => max(a, b)) + 1;
-    final height =
-        lines.map((e) => max(e.from.x, e.to.x)).reduce((a, b) => max(a, b)) + 1;
+    final width = lines.map((e) => max(e.from.y, e.to.y)).reduce(max) + 1;
+    final height = lines.map((e) => max(e.from.x, e.to.x)).reduce(max) + 1;
     return Plane(width, height)..plotLines(lines);
   }
 

@@ -16,34 +16,34 @@ gcafb gcf dcaebfg ecagb gf abcdeg gaef cafbge fdbac fegbdc | fgae cfgab fg bagce
 
 void main() {
   test('Load raw data', () {
-    final signals = rawData.split('\n').map((e) => Signal.fromString(e));
+    final signals = rawData.split('\n').map(Signal.fromString);
     expect(signals.length, equals(10));
     expect(signals.first.input.length, equals(10));
     expect(signals.first.output.length, equals(4));
   });
 
   test('Unique segments (first)', () {
-    final signals = rawData.split('\n').map((e) => Signal.fromString(e));
+    final signals = rawData.split('\n').map(Signal.fromString);
     expect(signals.first.uniqueSegments, equals(2));
     expect(signals.first.input.length, equals(10));
     expect(signals.first.output.length, equals(4));
   });
 
   test('Unique segments', () {
-    final signals = rawData.split('\n').map((e) => Signal.fromString(e));
+    final signals = rawData.split('\n').map(Signal.fromString);
     final uniqueSegments =
         signals.map((e) => e.uniqueSegments).reduce((v, e) => v + e);
     expect(uniqueSegments, equals(26));
   });
 
   test('Decode first signal', () {
-    final signals = rawData.split('\n').map((e) => Signal.fromString(e));
+    final signals = rawData.split('\n').map(Signal.fromString);
     final signal = signals.first;
     expect(signal.decoded, equals(8394));
   });
 
   test('Decode first signal', () {
-    final signals = rawData.split('\n').map((e) => Signal.fromString(e));
+    final signals = rawData.split('\n').map(Signal.fromString);
     final signal = signals.first;
     expect(signal.decoded, equals(8394));
   });
@@ -63,7 +63,7 @@ void main() {
   });
 
   test('Decode all signals', () {
-    final signals = rawData.split('\n').map((e) => Signal.fromString(e));
+    final signals = rawData.split('\n').map(Signal.fromString);
     final decoded = signals.map((signal) => signal.decoded);
 
     expect(decoded,

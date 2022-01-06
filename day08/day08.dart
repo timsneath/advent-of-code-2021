@@ -25,8 +25,8 @@ class Signal {
       .map((segment) => digit.contains(segment))
       .reduce((value, element) => value && element);
 
-  // Take a single segmented digit (e.g. 'acdeg') and return the digit to which it
-  // corresponds.
+  // Take a single segmented digit (e.g. 'acdeg') and return the digit to which
+  // it corresponds.
   String? decodeSegment(String segmentedDigit) {
     switch (segmentedDigit.length) {
       case 2:
@@ -49,7 +49,7 @@ class Signal {
       }
       // could be '2' or '5'
       final digitNine = input.firstWhere(
-          (element) => (element.length == 6 && decodeSegment(element) == '9'));
+          (element) => element.length == 6 && decodeSegment(element) == '9');
       if (matchSegments(digitNine, segmentedDigit)) {
         return '5';
       } else {
@@ -76,11 +76,7 @@ class Signal {
   }
 
   /// Return the digits representing a specific signal.
-  int get decoded {
-    final decodedString =
-        output.map((segmentedDigit) => decodeSegment(segmentedDigit)).join('');
-    return int.parse(decodedString);
-  }
+  int get decoded => int.parse(output.map(decodeSegment).join());
 
   factory Signal.fromString(String raw) {
     final splitRow = raw.split(' | ');
@@ -94,7 +90,7 @@ class Signal {
 void main(List<String> args) {
   final path = args.isNotEmpty ? args[0] : 'day08/day08.txt';
   final rawData = File(path).readAsLinesSync();
-  final signals = rawData.map((e) => Signal.fromString(e));
+  final signals = rawData.map(Signal.fromString);
 
   final uniqueSegments = signals.map((e) => e.uniqueSegments).sum;
   print('Unique segments in output: $uniqueSegments');
